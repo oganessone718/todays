@@ -33,4 +33,8 @@
   --color-gray-500: oklch(60.03% 0.009 95.83);    /* #92928E */
   --color-gray-700: oklch(48.24% 0.008 106.88);   /* #767672 */
   --color-gray-900: oklch(31.42% 0.006 106.88);   /* #4D4D4A */
+
+  /* responsive system */
+  --breakpoint-*: initial;
+  --breakpoint-desktop: 768px;
 }
