@@ -1,0 +1,36 @@
+/* app/globals.css */
+
+@import "tailwindcss";
+
+@theme {
+  /* OKLCH 색상 정의 */
+  --color-white: oklch(100% 0 0);
+  --color-black: oklch(0% 0 0);
+  --color-red: oklch(62.79% 0.258 29.23);
+  --color-green: oklch(50.41% 0.155 140.23); /* 예시, 정확한 변환 필요 */
+  --color-blue: oklch(45.2% 0.198 264.49);
+
+  /* PRIMARY 스케일 */
+  --color-primary-50: oklch(99.43% 0.021 95.69);   /* #FFFDE3 */
+  --color-primary-100: oklch(96.08% 0.076 94.67);  /* #FFF8AC */
+  --color-primary-300: oklch(89.28% 0.117 92.83);  /* #FFEB76 */
+  --color-primary-500: oklch(81.25% 0.163 92.51);  /* #FFD900 */
+  --color-primary-700: oklch(58.33% 0.116 88.08);  /* #D9AE21 */
+  --color-primary-900: oklch(39.11% 0.073 83.17);  /* #92732F */
+
+  /* SECONDARY 스케일 */
+  --color-secondary-50: oklch(99.63% 0.011 306.91); /* #FDF8FF */
+  --color-secondary-100: oklch(96.08% 0.055 306.87); /* #FBEFFF */
+  --color-secondary-300: oklch(89.04% 0.108 306.49); /* #F5D9FF */
+  --color-secondary-500: oklch(76.79% 0.17 319.4);  /* #EBB1FF */
+  --color-secondary-700: oklch(56.76% 0.228 320.1);  /* #C96BFF */
+  --color-secondary-900: oklch(37.49% 0.218 318.57); /* #9836D9 */
+
+  /* GRAY 스케일 */
+  --color-gray-50: oklch(98.34% 0.005 106.88);    /* #F5F5F2 */
+  --color-gray-100: oklch(93.07% 0.006 106.88);   /* #E3E3DD */
+  --color-gray-300: oklch(81.5% 0.007 106.88);    /* #C8C8C1 */
+  --color-gray-500: oklch(60.03% 0.009 95.83);    /* #92928E */
+  --color-gray-700: oklch(48.24% 0.008 106.88);   /* #767672 */
+  --color-gray-900: oklch(31.42% 0.006 106.88);   /* #4D4D4A */
+}
