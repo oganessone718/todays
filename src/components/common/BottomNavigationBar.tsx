@@ -15,6 +15,7 @@ const BottomNavigationBar = () => {
   ];
 
   return (
+    <div>
       <div className="fixed w-full bottom-0 z-50 flex justify-between items-center h-[56px] px-[32px] py-[16px] border-t-[1px] border-t-gray-300 bg-white">
         {navigatorItems.map((navigatorItem) => (
           <Link
@@ -38,6 +39,8 @@ const BottomNavigationBar = () => {
           </Link>
         ))}
       </div>
+      {/* spacer */}
+      <div className="h-[56px]"></div>
     </div>
   );
 };
