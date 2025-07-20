@@ -1,4 +1,4 @@
-import BottomNavigationBar from "@/components/common/BottomNavigationBar";
+import BottomNavigationBar from "@/components/common/layout/BottomNavigationBar";
 
 const RootLayout = ({
   children,
