@@ -15,28 +15,32 @@ const BottomNavigationBar = () => {
   ];
 
   return (
-    <div className="fixed w-full bottom-0 z-50 flex justify-between items-center h-[56px] px-[32px] py-[16px] border-t-[1px] border-t-gray-300 bg-white">
-      {navigatorItems.map((navigatorItem) => (
-        <Link
-          href={navigatorItem.href}
-          key={navigatorItem.href}
-          className="h-[40px] w-[40px] flex items-center justify-center"
-        >
-          <span
-            className={
-              "material-symbols-rounded" +
-              ((pathName === "/" && pathName === navigatorItem.href) ||
-              (pathName !== "/" &&
-                navigatorItem.href !== "/" &&
-                pathName.startsWith(navigatorItem.href))
-                ? " material-symbols-filled"
-                : " material-symbols-default text-gray-900")
-            }
+    <div>
+      <div className="fixed w-full bottom-0 z-50 flex justify-between items-center h-[56px] px-[32px] py-[16px] border-t-[1px] border-t-gray-300 bg-white">
+        {navigatorItems.map((navigatorItem) => (
+          <Link
+            href={navigatorItem.href}
+            key={navigatorItem.href}
+            className="h-[40px] w-[40px] flex items-center justify-center"
           >
-            {navigatorItem.icon}
-          </span>
-        </Link>
-      ))}
+            <span
+              className={
+                "icons-default " +
+                ((pathName === "/" && pathName === navigatorItem.href) ||
+                (pathName !== "/" &&
+                  navigatorItem.href !== "/" &&
+                  pathName.startsWith(navigatorItem.href))
+                  ? " icons-filled"
+                  : " text-gray-900")
+              }
+            >
+              {navigatorItem.icon}
+            </span>
+          </Link>
+        ))}
+      </div>
+      {/* spacer */}
+      <div className="h-[56px]"></div>
     </div>
   );
 };
