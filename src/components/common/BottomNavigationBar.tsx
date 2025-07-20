@@ -15,6 +15,13 @@ const BottomNavigationBar = () => {
   ];
 
   return (
+      <div className="fixed w-full bottom-0 z-50 flex justify-between items-center h-[56px] px-[32px] py-[16px] border-t-[1px] border-t-gray-300 bg-white">
+        {navigatorItems.map((navigatorItem) => (
+          <Link
+            href={navigatorItem.href}
+            key={navigatorItem.href}
+            className="h-[40px] w-[40px] flex items-center justify-center"
+          >
             <span
               className={
                 "icons-default " +
@@ -25,6 +32,12 @@ const BottomNavigationBar = () => {
                   ? " icons-filled"
                   : " text-gray-900")
               }
+            >
+              {navigatorItem.icon}
+            </span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
