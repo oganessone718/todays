@@ -14,7 +14,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`h-[${size}px] w-[${size}px] flex items-center justify-center icons-default ${
+      className={`h-[${size}px] w-[${size}px] flex items-center justify-center icons-default cursor-pointer ${
         filled ? "icons-filled" : ""
       }`}
     >
