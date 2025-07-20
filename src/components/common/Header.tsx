@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <div>
-      <div className="fixed w-full top-0 z-50 flex justify-between items-center h-[56px] px-[32px] py-[16px] border-b-[1px] border-b-gray-300 bg-white gap-[12px]">
+      <div className="fixed w-full top-0 z-50 flex justify-between items-center h-[56px] px-[16px] py-[16px] border-b-[1px] border-b-gray-300 bg-white gap-[12px]">
         <div className="flex flex-1 gap-[12px] items-center">
           {left}
           {center}
