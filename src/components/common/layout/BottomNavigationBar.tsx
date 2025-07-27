@@ -11,7 +11,7 @@ const BottomNavigationBar = () => {
     { href: "/friends", icon: "group" },
     { href: "/create", icon: "add_box" },
     { href: "/notifications", icon: "notifications" },
-    { href: "/my-todays", icon: "person" },
+    { href: "/diary", icon: "person" },
   ];
 
   return (
