@@ -1,5 +1,3 @@
-"use client";
-
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
 import { TodayFormValues } from "@/mock/todayMockData";
 
@@ -9,11 +7,7 @@ export interface TitleInputProps {
   initialValue?: string;
 }
 
-const TitleInput = ({
-  register,
-  watch,
-  initialValue = "",
-}: TitleInputProps) => {
+const TitleInput = ({ register, watch, initialValue }: TitleInputProps) => {
   const title = initialValue ?? watch("title");
 
   const titleLength = title ? title.length : 0;
