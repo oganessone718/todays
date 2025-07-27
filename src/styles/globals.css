@@ -16,6 +16,10 @@
   font-size: 16px;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
 @theme {
   /* color system */
   --color-white: oklch(100% 0 0);
@@ -44,23 +48,6 @@
   --color-gray-500: oklch(60.03% 0.009 95.83); /* #92928E */
   --color-gray-700: oklch(48.24% 0.008 106.88); /* #767672 */
   --color-gray-900: oklch(31.42% 0.006 106.88); /* #4D4D4A */
-
-  /* font system */
-  --text-xs: 0.625rem; /* 10px */
-  --text-sm: 0.75rem; /* 12px */
-  --text-md: 0.875rem; /* 14px */
-  --text-base: 1rem; /* 16px */
-  --text-lg: 1.125rem; /* 18px */
-  --text-xl: 1.25rem; /* 20px */
-  --text-2xl: 1.5rem; /* 24px */
-  --text-5xl: 3rem; /* 32px */
-  --text-7xl: 4.5rem; /* 56px */
-
-  --font-weight-thin: 100;
-  --font-weight-regular: 300;
-  --font-weight-medium: 500;
-  --font-weight-bold: 700;
-  --font-weight-black: 900;
 
   /* responsive system */
   --breakpoint-*: initial;

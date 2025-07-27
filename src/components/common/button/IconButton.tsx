@@ -1,22 +1,29 @@
+"use client";
+
 interface IconButtonProps {
+  type?: "button" | "submit" | "reset";
   iconName: string;
-  size?: number;
+  small?: boolean;
   filled?: boolean;
   onClick?: () => void;
+  color?: string;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
+  type = "button",
   iconName,
-  size = 24,
+  small = false,
   filled = false,
   onClick = () => {},
+  color = "",
 }) => {
   return (
     <button
+      type={type}
       onClick={onClick}
-      className={`h-[${size}px] w-[${size}px] flex items-center justify-center icons-default cursor-pointer ${
+      className={`flex items-center justify-center icons-default cursor-pointer ${
         filled ? "icons-filled" : ""
-      }`}
+      } ${small ? "icons-small" : ""} ${color ? "text-${color}" : ""}`}
     >
       {iconName}
     </button>

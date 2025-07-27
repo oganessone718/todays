@@ -1,6 +1,6 @@
 "use client";
 
-import IconButton from "@/components/common/Button/IconButton";
+import IconButton from "@/components/common/button/IconButton";
 import { useRouter } from "next/navigation";
 
 type IconType = "arrow" | "x";
