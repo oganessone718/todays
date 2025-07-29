@@ -5,7 +5,7 @@ export interface InputBarProps {
   onChange: (value: string) => void;
   leftIcon?: React.ReactNode;
   placeholder?: string;
-  RightIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   onEnterPress?: () => void;
 }
 
@@ -14,7 +14,7 @@ const InputBar = ({
   onChange,
   leftIcon = null,
   placeholder = "입력해주세요.",
-  RightIcon = null,
+  rightIcon = null,
   onEnterPress = () => {},
 }: InputBarProps) => {
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ const InputBar = ({
         onKeyDown={handleKeyDown}
         className={`flex-1 focus:outline-none text-[16px] font-medium`}
       />
-      {RightIcon}
+      {rightIcon}
     </div>
   );
 };
