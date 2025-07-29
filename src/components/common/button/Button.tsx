@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`px-[12px] py-[8px] flex items-center justify-center gap-[2px]
+      className={`px-[12px] py-[8px] flex items-center justify-center gap-[2px] font-semibold text-[12px]
         ${
           filled
             ? activated
@@ -33,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
         } 
         ${activated ? "cursor-pointer" : "cursor-not-allowed"}
         ${rounded ? "rounded-[50px]" : "rounded-[8px]"} 
-        text-[12px] font-semibold`}
+       `}
     >
       {text}
       {icon}
