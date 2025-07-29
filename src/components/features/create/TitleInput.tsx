@@ -18,7 +18,7 @@ const TitleInput = ({ register, watch, initialValue }: TitleInputProps) => {
         type="text"
         placeholder="제목을 입력해주세요."
         value={title}
-        className={`flex-1 focus:outline-none text-[16px] font-medium`}
+        className={`flex-1 focus:outline-none text-[18px] font-medium`}
         {...register("title", { required: true, maxLength: 20 })}
       />
       <span
