@@ -18,6 +18,7 @@ const Create = () => {
   const router = useRouter();
 
   const saveToDay = (data: TmpTodayValues) => {
+    setTmpToday(data);
     router.push("/create/settings");
   };
 
