@@ -1,4 +1,4 @@
-interface ButtonProps {
+interface TextButtonProps {
   type?: "button" | "submit" | "reset";
   text?: string;
   activated?: boolean;
@@ -6,13 +6,13 @@ interface ButtonProps {
   icon?: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const TextButton = ({
   type = "button",
   text = "",
   activated = true,
   onClick = () => {},
   icon = null,
-}) => {
+}: TextButtonProps) => {
   return (
     <button
       type={type}
@@ -27,4 +27,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default TextButton;

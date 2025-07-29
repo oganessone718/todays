@@ -1,7 +1,12 @@
+import ClientProvider from "@/components/common/layout/ClientProvier";
 import "@/styles/globals.css";
-import localFont from "next/font/local";
 import type { Metadata } from "next";
-import { ClientProvider } from "@/components/common/layout/ClientProvier";
+import localFont from "next/font/local";
+import React from "react";
+
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
 
 const pretendard = localFont({
   src: "../styles/fonts/PretendardVariable.woff2",
@@ -12,11 +17,9 @@ export const metadata: Metadata = {
   description: "Record Today",
 };
 
-export default function RootLayout({
+const RootLayout: React.FC<RootLayoutProps> = ({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: RootLayoutProps) => {
   return (
     <html lang="en">
       <head>
@@ -30,4 +33,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

@@ -6,11 +6,11 @@ interface ModalProps {
   onEmojiSelect?: (emojiData: EmojiClickData) => void;
 }
 
-const EmojiPickerModal: React.FC<ModalProps> = ({
+const EmojiPickerModal = ({
   isOpen,
   onClose,
   onEmojiSelect = (emojiData: EmojiClickData) => {},
-}) => {
+}: ModalProps) => {
   return (
     isOpen && (
       <div

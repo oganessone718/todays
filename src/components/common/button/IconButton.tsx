@@ -9,14 +9,14 @@ interface IconButtonProps {
   color?: string;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({
+const IconButton = ({
   type = "button",
   iconName,
   small = false,
   filled = false,
   onClick = () => {},
   color = "",
-}) => {
+}: IconButtonProps) => {
   return (
     <button
       type={type}

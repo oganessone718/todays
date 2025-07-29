@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
 import { OverlayProvider } from "overlay-kit";
+import React from "react";
 
-export const ClientProvider = ({
-  children,
-}: Readonly<{
+interface ClientProviderProps {
   children: React.ReactNode;
-}>) => {
+}
+
+const ClientProvider = ({ children }: ClientProviderProps) => {
   return <OverlayProvider>{children}</OverlayProvider>;
 };
+
+export default ClientProvider;
