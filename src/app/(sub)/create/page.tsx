@@ -8,23 +8,17 @@ import TitleInput from "@/components/features/create/TitleInput";
 import ContentInput from "@/components/features/create/ContentInput";
 import CreateBottomBar from "@/components/features/create/CreateBottomBar";
 import DateEmojiInput from "@/components/features/create/DateEmojiInput";
-import { TodayFormValues } from "@/mock/todayMockData";
-
-const defaultValues = {
-  title: "",
-  content: "",
-  date: new Date().toISOString().split("T")[0], // 오늘 날짜로 초기화
-  emojiUrl: "",
-};
+import useTmpTodayStore, { TmpTodayValues } from "@/store/useTmpTodayStore";
 
 const Create = () => {
+  const { tmpToday, setTmpToday } = useTmpTodayStore();
   const { register, handleSubmit, watch, setValue } = useForm({
-    defaultValues: defaultValues,
+    defaultValues: tmpToday,
   });
   const router = useRouter();
 
-  const saveToDay = (data: TodayFormValues) => {
-    console.log("data: ", data);
+  const saveToDay = (data: TmpTodayValues) => {
+    setTmpToday(data);
     router.push("/create/settings");
   };
 

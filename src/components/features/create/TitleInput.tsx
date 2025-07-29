@@ -1,9 +1,9 @@
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
-import { TodayFormValues } from "@/mock/todayMockData";
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 
 export interface TitleInputProps {
-  register: UseFormRegister<TodayFormValues>;
-  watch: UseFormWatch<TodayFormValues>;
+  register: UseFormRegister<TmpTodayValues>;
+  watch: UseFormWatch<TmpTodayValues>;
   initialValue?: string;
 }
 

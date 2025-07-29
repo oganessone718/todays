@@ -2,12 +2,12 @@ import Button from "@/components/common/button/Button";
 import IconButton from "@/components/common/button/IconButton";
 
 import { UseFormWatch } from "react-hook-form";
-import { TodayFormValues } from "@/mock/todayMockData";
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 
 const CreateBottomBar = ({
   watch,
 }: {
-  watch: UseFormWatch<TodayFormValues>;
+  watch: UseFormWatch<TmpTodayValues>;
 }) => {
   return (
     <div>
