@@ -6,14 +6,14 @@ export interface TmpTodayValues {
   content: string;
   date: string;
   emojiUrl: string;
-  mentions: number[];
-  tags: number[];
-  visibles: number[];
+  mentions: string[];
+  tags: string[];
+  visibles: string[];
 }
 
 interface TmpTodayStore {
   tmpToday: TmpTodayValues;
-  setTmpToday: (tmpToday: TmpTodayValues) => void;
+  setTmpToday: (tmpToday: Partial<TmpTodayValues>) => void;
 }
 
 const useTmpTodayStore = create<TmpTodayStore>((set) => ({
