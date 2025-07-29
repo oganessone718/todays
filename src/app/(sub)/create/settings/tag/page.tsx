@@ -4,7 +4,7 @@ import BackButton from "@/components/common/button/BackButton";
 import InputBar from "@/components/common/input/InputBar";
 import Header from "@/components/common/layout/Header";
 import DeletableTag from "@/components/common/tag/DeletableTag";
-import CreateSettingsTagBottomBar from "@/components/features/create/settings/tag/CreateSettingTagBottomBar";
+import CreateSettingsBottomBar from "@/components/features/create/CreateSettingBottomBar";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -65,7 +65,8 @@ const CreateSettingsTag = () => {
             />
           ))}
         </div>
-        <CreateSettingsTagBottomBar
+        <CreateSettingsBottomBar
+          buttonText="완료"
           onClick={() => {
             setTmpToday({ tags: tags });
             router.push("/create/settings");
