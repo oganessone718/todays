@@ -1,7 +1,7 @@
 import Header from "@/components/common/layout/Header";
 import BackButton from "@/components/common/button/BackButton";
 import CreateSettingsBottomBar from "@/components/features/create/CreateSettingBottomBar";
-import HashSetting from "@/components/features/create/settings/HashSetting";
+import TagSetting from "@/components/features/create/settings/TagSetting";
 import MentionSetting from "@/components/features/create/settings/MentionSetting";
 import VisibilitySetting from "@/components/features/create/settings/VisibilitySetting";
 
@@ -13,7 +13,7 @@ const CreateSettings = () => {
         center={<span className="text-lg font-medium">To.Day 상세 설정</span>}
       />
       <div className="flex-1 flex flex-col">
-        <HashSetting />
+        <TagSetting />
         <MentionSetting />
         <VisibilitySetting />
         <CreateSettingsBottomBar />
