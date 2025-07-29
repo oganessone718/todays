@@ -1,10 +1,10 @@
 import BottomNavigationBar from "@/components/common/layout/BottomNavigationBar";
 
-const RootLayout = ({
-  children,
-}: Readonly<{
+interface MainLayoutProps {
   children: React.ReactNode;
-}>) => {
+}
+
+const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 flex flex-col">{children}</div>
@@ -13,4 +13,4 @@ const RootLayout = ({
   );
 };
 
-export default RootLayout;
+export default MainLayout;

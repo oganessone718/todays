@@ -8,7 +8,7 @@ interface ButtonProps {
   icon?: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   type = "button",
   text = "",
   filled = true,
@@ -16,12 +16,12 @@ const Button: React.FC<ButtonProps> = ({
   rounded = false,
   onClick = () => {},
   icon = null,
-}) => {
+}: ButtonProps) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`px-[12px] py-[8px] flex items-center justify-center gap-[2px] font-semibold text-[12px]
+      className={`px-[12px] py-[8px] flex items-center justify-center gap-[2px] font-semibold text-[16px]
         ${
           filled
             ? activated
