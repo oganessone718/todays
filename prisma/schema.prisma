@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// schema.prisma
+model User {
+  id                  String               @id @default(cuid()) 
+  userId              String               @unique @db.VarChar(20)
+  password            String?              
+  nickname            String               @db.VarChar(12)
+  introduction        String?              @db.VarChar(200)
+  diaryName           String               @db.VarChar(20)
+  createdAt           DateTime             @default(now()) 
+  updatedAt           DateTime             @updatedAt     
+
+
+  todays              Today[]
+  tags                Tag[]
+  comments            Comment[]
+  reactions           Reaction[]
+  friendshipsAsUser1  Friendship[]         @relation("User1Friendships")
+  friendshipsAsUser2  Friendship[]         @relation("User2Friendships")
+  friendsGroups       FriendsGroup[]
+  notifications       Notification[]       @relation("UserNotifications")
+  actorNotifications  Notification[]       @relation("ActorNotifications")
+  groupFriends        GroupFriend[]
+
+  todayMentionedUsers TodayMentionUser[]
+  todayVisibleUsers   TodayVisibleUser[]
+
+}
+
+model Today {
+  id                  String               @id @default(cuid())
+  userId              String
+  title               String               @db.VarChar(20)
+  emojiUrl            String
+  content             String
+  date                DateTime             @db.Date
+  createdAt           DateTime             @default(now()) 
+  updatedAt           DateTime             @updatedAt 
+
+  user                User                 @relation(fields: [userId], references: [id])
+  todayTags           TodayTag[]
+  todayMentionedUsers TodayMentionUser[]
+  todayVisibleUsers   TodayVisibleUser[]
+  comments            Comment[]
+  reactions           Reaction[]
+}
+
+model TodayTag {
+  id      String @id @default(cuid())
+  todayId String 
+  tagId   String 
+
+  today   Today  @relation(fields: [todayId], references: [id])
+  tag     Tag    @relation(fields: [tagId], references: [id])
+}
+
+model TodayMentionUser {
+  id              String @id @default(cuid())
+  todayId         String 
+  mentionedUserId String 
+
+  today           Today  @relation(fields: [todayId], references: [id])
+  mentionedUser   User   @relation(fields: [mentionedUserId], references: [id])
+}
+
+model TodayVisibleUser {
+  id            String @id @default(cuid())
+  todayId       String 
+  visibleUserId String 
+
+  today         Today  @relation(fields: [todayId], references: [id])
+  visibleUser   User   @relation(fields: [visibleUserId], references: [id])
+}
+
+model Tag {
+  id      String @id @default(cuid())
+  userId  String
+  name    String @db.VarChar(20)
+
+  user      User       @relation(fields: [userId], references: [id])
+  todayTags TodayTag[]
+}
+
+model Comment {
+  id              String    @id @default(cuid())
+  userId          String  
+  todayId         String  
+  content         String
+  parentCommentId String?  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User      @relation(fields: [userId], references: [id])
+  today           Today     @relation(fields: [todayId], references: [id])
+  parentComment   Comment?  @relation("ParentChildComments", fields: [parentCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  childComments   Comment[] @relation("ParentChildComments")
+}
+
+model Reaction {
+  id        String   @id @default(cuid())
+  userId    String  
+  todayId   String  
+  emojiUrl  String   
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id])
+  today     Today    @relation(fields: [todayId], references: [id])
+}
+
+model Friendship {
+  id         String   @id @default(cuid())
+  user1Id    String  
+  user2Id    String   
+  createdAt  DateTime @default(now())
+
+  user1      User     @relation("User1Friendships", fields: [user1Id], references: [id])
+  user2      User     @relation("User2Friendships", fields: [user2Id], references: [id])
+
+  @@unique([user1Id, user2Id]) 
+}
+
+model FriendsGroup {
+  id       String @id @default(cuid())
+  name     String @db.VarChar(20)
+  userId   String
+
+  user       User         @relation(fields: [userId], references: [id])
+  groupFriends GroupFriend[]
+}
+
+model GroupFriend {
+  id             String @id @default(cuid())
+  friendsGroupId String 
+  friendId       String 
+
+  friendsGroup   FriendsGroup @relation(fields: [friendsGroupId], references: [id])
+  friend         User         @relation(fields: [friendId], references: [id])
+}
+
+model Notification {
+  id            String   @id @default(cuid())
+  type          String
+  actorUserId   String 
+  userId        String 
+  isRead        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  actorUser     User     @relation("ActorNotifications", fields: [actorUserId], references: [id])
+  user          User     @relation("UserNotifications", fields: [userId], references: [id])
+}
