@@ -1,8 +1,8 @@
 "use client";
 
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 import { useRef } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { TmpTodayValues } from "@/store/useTmpTodayStore";
 
 const ContentInput = ({
   register,
@@ -30,7 +30,7 @@ const ContentInput = ({
         }}
         rows={1}
         placeholder="내용을 입력해주세요."
-        className="flex-1 focus:outline-none text-[14px] font-regular resize-none overflow-hidden"
+        className="flex-1 focus:outline-none text-[16px] font-regular resize-none overflow-hidden"
         {...rest}
         onChange={(e) => {
           onChange(e);
