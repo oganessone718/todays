@@ -14,11 +14,15 @@ const CreateSettingsTag = () => {
 
   const router = useRouter();
 
-  const [tags, setTags] = useState<string[]>(tmpToday.tags);
+  const [tags, setTags] = useState<Set<string>>(tmpToday.tags);
   const [tag, setTag] = useState("");
 
   const onEnterPress = () => {
-    setTags((tags) => (tags.includes(tag) ? tags : [...tags, tag]));
+    setTags((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(tag);
+      return newSet;
+    });
     setTag("");
   };
 
@@ -47,17 +51,19 @@ const CreateSettingsTag = () => {
           />
         </div>
         <div className="flex flex-col gap-[12px] p-[12px]">
-          {tags.map((tag, index) => {
-            return (
-              <DeletableTag
-                text={tag}
-                key={index}
-                onDelete={() => {
-                  setTags((tags) => tags.filter((t) => t !== tag));
-                }}
-              />
-            );
-          })}
+          {[...tags].map((tag) => (
+            <DeletableTag
+              key={tag}
+              text={tag}
+              onDelete={() => {
+                setTags((prev) => {
+                  const newTags = new Set(prev);
+                  newTags.delete(tag);
+                  return newTags;
+                });
+              }}
+            />
+          ))}
         </div>
         <CreateSettingsTagBottomBar
           onClick={() => {
