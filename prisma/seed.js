@@ -77,6 +77,7 @@ async function main() {
         diaryName: "유리의 마음일기",
       },
     ],
+    skipDuplicates: true, // 중복 방지
   });
 
   // oganesson 유저의 id 조회
@@ -90,15 +91,19 @@ async function main() {
     return;
   }
 
-  // oganesson 유저를 제외한 모든 유저의 id 조회
+  // oganesson 유저를 제외한 모든 유저의 id 조회 및 userId와 id 매핑
   const allOtherUsers = await prisma.user.findMany({
     where: {
       NOT: {
         userId: "oganesson",
       },
     },
-    select: { id: true },
+    select: { id: true, userId: true },
   });
+
+  const userIdToIdMap = new Map(
+    allOtherUsers.map((user) => [user.userId, user.id])
+  );
 
   // Friendship 레코드 생성 데이터 준비
   const friendshipsToCreate = allOtherUsers.map((user) => ({
@@ -113,6 +118,83 @@ async function main() {
   });
 
   console.log("✅ Friendships created for oganesson.");
+
+  // FriendGroup 생성
+  const sparksGroup = await prisma.friendsGroup.create({
+    data: {
+      name: "스팍스",
+      userId: oganessonUser.id,
+    },
+  });
+
+  const kaistGroup = await prisma.friendsGroup.create({
+    data: {
+      name: "KAIST",
+      userId: oganessonUser.id,
+    },
+  });
+
+  const developerGroup = await prisma.friendsGroup.create({
+    data: {
+      name: "개발자",
+      userId: oganessonUser.id,
+    },
+  });
+
+  console.log("✅ FriendGroups created.");
+
+  // GroupFriend 레코드 생성 데이터 준비 (오버랩 포함)
+  const groupFriendsToCreate = [
+    // 스팍스 그룹
+    {
+      friendsGroupId: sparksGroup.id,
+      friendId: userIdToIdMap.get("jiyoung02"),
+    },
+    {
+      friendsGroupId: sparksGroup.id,
+      friendId: userIdToIdMap.get("soojin04"),
+    },
+    {
+      friendsGroupId: sparksGroup.id,
+      friendId: userIdToIdMap.get("taemin07"),
+    },
+
+    // KAIST 그룹 (jiyoung02, hyunwoo03 오버랩)
+    {
+      friendsGroupId: kaistGroup.id,
+      friendId: userIdToIdMap.get("jiyoung02"),
+    },
+    {
+      friendsGroupId: kaistGroup.id,
+      friendId: userIdToIdMap.get("hyunwoo03"),
+    },
+    {
+      friendsGroupId: kaistGroup.id,
+      friendId: userIdToIdMap.get("doyoung05"),
+    },
+
+    // 개발자 그룹 (hyunwoo03, junho09 오버랩)
+    {
+      friendsGroupId: developerGroup.id,
+      friendId: userIdToIdMap.get("hyunwoo03"),
+    },
+    {
+      friendsGroupId: developerGroup.id,
+      friendId: userIdToIdMap.get("junho09"),
+    },
+    {
+      friendsGroupId: developerGroup.id,
+      friendId: userIdToIdMap.get("hanna08"),
+    },
+  ].filter((gf) => gf.friendId); // 유효한 friendId만 포함
+
+  // GroupFriend 레코드 생성
+  await prisma.groupFriend.createMany({
+    data: groupFriendsToCreate,
+    skipDuplicates: true, // 이미 존재하는 관계는 건너뛰기
+  });
+
+  console.log("✅ GroupFriends created for oganesson's groups.");
 }
 
 main()
