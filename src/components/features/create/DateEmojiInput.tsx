@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import IconButton from "@/components/common/button/IconButton";
 import EmojiPickerModal from "@/components/common/modal/EmojiPickerModal";
-import { TodayFormValues } from "@/mock/todayMockData";
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 
 import {
   UseFormRegister,
@@ -13,9 +13,9 @@ import { overlay } from "overlay-kit";
 import { EmojiClickData } from "emoji-picker-react";
 
 export interface DateEmojiInputProps {
-  register: UseFormRegister<TodayFormValues>;
-  setValue: UseFormSetValue<TodayFormValues>;
-  watch: UseFormWatch<TodayFormValues>;
+  register: UseFormRegister<TmpTodayValues>;
+  setValue: UseFormSetValue<TmpTodayValues>;
+  watch: UseFormWatch<TmpTodayValues>;
 }
 
 const DateEmojiInput = ({ register, setValue, watch }: DateEmojiInputProps) => {

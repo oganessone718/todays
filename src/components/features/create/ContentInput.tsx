@@ -2,12 +2,12 @@
 
 import { useRef } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { TodayFormValues } from "@/mock/todayMockData";
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 
 const ContentInput = ({
   register,
 }: {
-  register: UseFormRegister<TodayFormValues>;
+  register: UseFormRegister<TmpTodayValues>;
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { ref, onChange, ...rest } = register("content");
