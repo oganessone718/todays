@@ -1,0 +1,192 @@
+"use client";
+
+import Dropdown from "@/components/common/Dropdown";
+import BackButton from "@/components/common/button/BackButton";
+import InputBar from "@/components/common/input/InputBar";
+import Header from "@/components/common/layout/Header";
+import UserSelectRow from "@/components/common/user/UserSelectRow";
+import CreateSettingsBottomBar from "@/components/features/create/CreateSettingBottomBar";
+import { getFriendsGroupByUserId } from "@/lib/client/friendsGroup";
+import { getFriendsByUserId } from "@/lib/client/friendship";
+import { getFriendsByGroupId } from "@/lib/client/groupFriend";
+import { getUserWithLoginId } from "@/lib/client/user";
+import { loginId } from "@/mock/mockData";
+import useTmpTodayStore from "@/store/useTmpTodayStore";
+import type { FriendsGroup, User } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const total = "전체 친구";
+
+const CreateSettingsMention = () => {
+  const { setTmpToday, tmpToday } = useTmpTodayStore();
+
+  const router = useRouter();
+
+  const [searchText, setSearchText] = useState("");
+  const [user, setUser] = useState<User | null>(null);
+  const [friends, setFriends] = useState<User[]>([]);
+  const [mentions, setMentions] = useState<Set<string>>(tmpToday.mentions);
+  const [friendsGroups, setFriendsGroups] = useState<FriendsGroup[]>([]);
+  const [selectedFriendsGroup, setSelectedFriendsGroup] =
+    useState<FriendsGroup | null>(null);
+
+  // useEffect
+  useEffect(() => {
+    if (loginId) {
+      fetchUser(loginId);
+    }
+  }, [loginId]);
+
+  useEffect(() => {
+    if (user === null) return;
+    fetchFriendsGroup(user.id);
+    fetchFriends({ userId: user.id });
+  }, [user]);
+
+  useEffect(() => {
+    if (user === null) return;
+    fetchFriends({
+      userId: user.id,
+      groupId: selectedFriendsGroup?.id,
+      searchText: searchText,
+    });
+  }, [selectedFriendsGroup]);
+
+  // 이벤트 핸들러
+  const onSearch = () => {
+    if (user === null) return;
+    fetchFriends({
+      userId: user.id,
+      groupId: selectedFriendsGroup?.id,
+      searchText: searchText.trim(),
+    });
+    setSearchText(searchText.trim());
+  };
+
+  const onGroupSelect = (name: string) => {
+    if (name === total) {
+      setSelectedFriendsGroup(null);
+    } else {
+      const group = friendsGroups.find((fg) => fg.name === name);
+      if (group) setSelectedFriendsGroup(group);
+    }
+  };
+
+  const onUserSelect = (id: string) => {
+    setMentions((prev) => {
+      const newSet = new Set(prev);
+      if (prev.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  // 데이터 패칭
+  const fetchUser = async (loginId: string) => {
+    try {
+      const userData = await getUserWithLoginId(loginId);
+      setUser(userData);
+    } catch (error) {
+      console.error("Failed to fetch user in mention setting page:", error);
+    }
+  };
+
+  const fetchFriendsGroup = async (userId: string) => {
+    try {
+      const friendsGroupData = await getFriendsGroupByUserId(userId);
+      setFriendsGroups(friendsGroupData);
+    } catch (error) {
+      console.error(
+        "Failed to fetch friends group in mention setting page:",
+        error
+      );
+    }
+  };
+
+  const fetchFriends = async ({
+    userId,
+    groupId,
+    searchText,
+  }: {
+    userId: string;
+    groupId?: string;
+    searchText?: string;
+  }) => {
+    try {
+      const friendsData = groupId
+        ? await getFriendsByGroupId({
+            friendsGroupId: groupId,
+            searchText: searchText,
+          })
+        : await getFriendsByUserId({ userId: userId, searchText: searchText });
+
+      setFriends(friendsData);
+    } catch (error) {
+      console.error("Failed to fetch friends in mention page:", error);
+    }
+  };
+
+  return (
+    <div className="flex flex-col flex-1">
+      <Header
+        left={<BackButton iconType="x" />}
+        center={<span className="text-lg font-medium">멘션 추가</span>}
+      />
+      <div className="flex-1 flex flex-col bg-gray-50">
+        <div className="flex flex-row gap-[12px] px-[8px] py-[12px] bg-gray-50 border-b-[1px] border-gray-100">
+          <Dropdown
+            selected={selectedFriendsGroup ? selectedFriendsGroup.name : total}
+            options={[
+              total,
+              ...friendsGroups.map((fg) => {
+                return fg.name;
+              }),
+            ]}
+            onSelect={onGroupSelect}
+          />
+          <InputBar
+            placeholder="친구를 검색해보세요."
+            inputText={searchText}
+            onChange={setSearchText}
+            onEnterPress={onSearch}
+            rightIcon={
+              <span
+                className={
+                  "icons-default icons-filled icons-small text-gray-700 font-bold cursor-pointer"
+                }
+                onClick={onSearch}
+              >
+                search
+              </span>
+            }
+          />
+        </div>
+        <div className="flex flex-col">
+          {friends.map((friend) => {
+            return (
+              <UserSelectRow
+                key={friend.id}
+                user={friend}
+                isSelected={mentions.has(friend.id)}
+                onSelect={onUserSelect}
+              />
+            );
+          })}
+        </div>
+        <CreateSettingsBottomBar
+          buttonText="완료"
+          onClick={() => {
+            setTmpToday({ mentions: mentions });
+            router.push("/create/settings");
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default CreateSettingsMention;
