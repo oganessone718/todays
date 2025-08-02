@@ -24,7 +24,7 @@ const Dropdown = ({
       className={`relative select-none cursor-pointer text-gray-900 text-[14px] font-medium flex-shrink-0`}
     >
       <div
-        className={`flex flex-row justify-between  rounded-t-[8px] border-[1px] border-gray-100 py-[8px] px-[16px] bg-white
+        className={`flex flex-row justify-between rounded-t-[8px] border-[1px] border-gray-100 py-[8px] px-[16px] bg-white
           ${isOpen ? " " : " rounded-b-[8px]"}`}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -35,7 +35,10 @@ const Dropdown = ({
       </div>
 
       {isOpen && (
-        <div className="absolute rounded-b-[8px] bg-white z-10">
+        <div
+          style={{ width: `${width}px` }}
+          className="absolute rounded-b-[8px] bg-white z-10"
+        >
           {options
             .filter((option) => option !== selected)
             .map((option, index, filteredOptions) => {
