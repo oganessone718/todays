@@ -8,8 +8,7 @@ export async function GET(
   const { friendsGroupId } = await params;
 
   const { searchParams } = new URL(request.url);
-  const searchText = searchParams.get("searchText"); // searchText 값을 추출
-
+  const searchText = searchParams.get("searchText");
   try {
     const groupFriendsData = await getFriendsByGroupId({
       friendsGroupId: friendsGroupId,

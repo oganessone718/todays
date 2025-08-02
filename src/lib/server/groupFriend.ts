@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { User } from "@prisma/client";
 
 const getFriendsByGroupId = async ({
   friendsGroupId,
@@ -11,23 +12,23 @@ const getFriendsByGroupId = async ({
     const friendsGroupData = await prisma.groupFriend.findMany({
       where: {
         friendsGroupId: friendsGroupId,
-        friend: searchText
-          ? {
-              OR: [
-                { id: { contains: searchText, mode: "insensitive" } },
-                { nickname: { contains: searchText, mode: "insensitive" } },
-              ],
-            }
-          : undefined,
       },
       include: {
         friend: true,
       },
     });
 
-    const groupFriendsData = friendsGroupData.map((friendsGroupDatum) => {
-      return friendsGroupDatum.friend;
-    });
+    const groupFriendsData: User[] = friendsGroupData
+      .map((friendsGroupDatum) => {
+        return friendsGroupDatum.friend;
+      })
+      .filter((friend) => {
+        if (!searchText) return true;
+        return (
+          friend.nickname.toLowerCase().includes(searchText.toLowerCase()) ||
+          friend.loginId.toLowerCase().includes(searchText.toLowerCase())
+        );
+      });
 
     return groupFriendsData;
   } catch (error) {
