@@ -10,8 +10,6 @@ export async function GET(
   const { searchParams } = new URL(request.url);
   const searchText = searchParams.get("searchText"); 
 
-  console.log(searchText)
-
   try {
     const friendsData = await getFriendsByUserId({
       userId: id,

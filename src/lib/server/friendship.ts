@@ -8,8 +8,6 @@ const getFriendsByUserId = async ({
   userId: string;
   searchText?: string | null;
 }) => {
-  console.log("getFriendsByUserId");
-  console.log("searchText", searchText);
   try {
     const friendshipData = await prisma.friendship.findMany({
       where: {
@@ -25,17 +23,6 @@ const getFriendsByUserId = async ({
       .map((fd) => (fd.user1.id === userId ? fd.user2 : fd.user1))
       .filter((friend) => {
         if (!searchText) return true;
-        console.log("getFriendsByUserId searchText ", searchText);
-        console.log(
-          "friend.nickname ",
-          friend.nickname,
-          friend.nickname.toLowerCase().includes(searchText.toLowerCase())
-        );
-        console.log(
-          "friend.id ",
-          friend.id,
-          friend.id.toLowerCase().includes(searchText.toLowerCase())
-        );
         return (
           friend.nickname.toLowerCase().includes(searchText.toLowerCase()) ||
           friend.loginId.toLowerCase().includes(searchText.toLowerCase())

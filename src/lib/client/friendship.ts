@@ -7,7 +7,6 @@ const getFriendsByUserId = async ({
   userId: string;
   searchText?: string;
 }) => {
-  console.log(searchText);
   try {
     const url = new URL(`/api/user/${userId}/friends`, window.location.origin);
     if (searchText) {
