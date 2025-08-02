@@ -7,70 +7,105 @@ async function main() {
   await prisma.user.createMany({
     data: [
       {
-        userId: "oganesson",
+        loginId: "oganesson",
         password: "e718",
         nickname: "오가네손",
         introduction: "Hello, world!",
         diaryName: "오가네손의 일기장",
       },
       {
-        userId: "jiyoung02",
+        loginId: "ella",
+        password: "ellapw",
+        nickname: "밍쥬",
+        introduction: "잠은 죽어서 자면 돼",
+        diaryName: "작고귀여운내방",
+      },
+      {
+        loginId: "easy_senior",
+        password: "wwww",
+        nickname: "만고삼",
+        introduction: "Wwwwww 쑻",
+        diaryName: "만만한 고삼",
+      },
+      {
+        loginId: "sbp",
+        password: "password",
+        nickname: "씅빈",
+        introduction: "강아지를 사랑해요 🐶",
+        diaryName: "수다로그",
+      },
+      {
+        loginId: "yum",
+        password: "yumyum",
+        nickname: "윰",
+        introduction: "♥",
+        diaryName: "맛집탐방",
+      },
+      {
+        loginId: "joonce",
+        password: "juice",
+        nickname: "정윤남친",
+        introduction: "응애",
+        diaryName: "성장일지",
+      },
+      {
+        loginId: "jiyoung02",
         password: "helloWorld!",
         nickname: "Young",
         introduction: "매일매일이 새로워요.",
         diaryName: "지영로그",
       },
       {
-        userId: "hyunwoo03",
+        loginId: "hyunwoo03",
         password: "pass1234",
         nickname: "Hwoo",
         introduction: "프론트엔드 개발자",
         diaryName: "코드다이어리",
       },
       {
-        userId: "soojin04",
+        loginId: "soojin04",
         password: "ilovedogs",
         nickname: "SJ",
         introduction: "강아지를 사랑해요 🐶",
         diaryName: "멍멍일기장",
       },
       {
-        userId: "doyoung05",
+        loginId: "doyoung05",
         password: "asdf",
         nickname: "DY",
         introduction: null,
         diaryName: "도영의 생각노트",
       },
       {
-        userId: "eunji06",
+        loginId: "eunji06",
         password: "12345678",
         nickname: "은지",
         introduction: "따뜻한 일상을 기록합니다.",
         diaryName: "햇살노트",
       },
       {
-        userId: "taemin07",
+        loginId: "taemin07",
         password: "taeminpass!",
         nickname: "TM",
         introduction: "음악과 함께 사는 삶",
         diaryName: "멜로디로그",
       },
       {
-        userId: "hanna08",
+        loginId: "hanna08",
         password: "abcdefg1",
         nickname: "한나",
         introduction: "글을 쓰는 디자이너입니다.",
         diaryName: "한나의 드로잉일기",
       },
       {
-        userId: "junho09",
+        loginId: "junho09",
         password: "qwer",
         nickname: "준호",
         introduction: "백엔드를 공부중입니다.",
         diaryName: "개발일지",
       },
       {
-        userId: "yuri10",
+        loginId: "yuri10",
         password: "yuri2025",
         nickname: "유리",
         introduction: "오늘도 평화롭게 ✨",
@@ -82,7 +117,7 @@ async function main() {
 
   // oganesson 유저의 id 조회
   const oganessonUser = await prisma.user.findUnique({
-    where: { userId: "oganesson" },
+    where: { loginId: "oganesson" },
     select: { id: true },
   });
 
@@ -91,18 +126,18 @@ async function main() {
     return;
   }
 
-  // oganesson 유저를 제외한 모든 유저의 id 조회 및 userId와 id 매핑
+  // oganesson 유저를 제외한 모든 유저의 id 조회 및 loginId  와 id 매핑
   const allOtherUsers = await prisma.user.findMany({
     where: {
       NOT: {
-        userId: "oganesson",
+        loginId: "oganesson",
       },
     },
-    select: { id: true, userId: true },
+    select: { id: true, loginId: true },
   });
 
-  const userIdToIdMap = new Map(
-    allOtherUsers.map((user) => [user.userId, user.id])
+  const loginIdToIdMap = new Map(
+    allOtherUsers.map((user) => [user.loginId, user.id])
   );
 
   // Friendship 레코드 생성 데이터 준비
@@ -134,9 +169,9 @@ async function main() {
     },
   });
 
-  const developerGroup = await prisma.friendsGroup.create({
+  const onetedGroup = await prisma.friendsGroup.create({
     data: {
-      name: "개발자",
+      name: "원티드",
       userId: oganessonUser.id,
     },
   });
@@ -148,43 +183,47 @@ async function main() {
     // 스팍스 그룹
     {
       friendsGroupId: sparksGroup.id,
-      friendId: userIdToIdMap.get("jiyoung02"),
+      friendId: loginIdToIdMap.get("ella"),
     },
     {
       friendsGroupId: sparksGroup.id,
-      friendId: userIdToIdMap.get("soojin04"),
-    },
-    {
-      friendsGroupId: sparksGroup.id,
-      friendId: userIdToIdMap.get("taemin07"),
+      friendId: loginIdToIdMap.get("sbp"),
     },
 
-    // KAIST 그룹 (jiyoung02, hyunwoo03 오버랩)
+    // KAIST 그룹
     {
       friendsGroupId: kaistGroup.id,
-      friendId: userIdToIdMap.get("jiyoung02"),
+      friendId: loginIdToIdMap.get("ella"),
     },
     {
       friendsGroupId: kaistGroup.id,
-      friendId: userIdToIdMap.get("hyunwoo03"),
+      friendId: loginIdToIdMap.get("easy_senior"),
     },
     {
       friendsGroupId: kaistGroup.id,
-      friendId: userIdToIdMap.get("doyoung05"),
+      friendId: loginIdToIdMap.get("sbp"),
+    },
+    {
+      friendsGroupId: kaistGroup.id,
+      friendId: loginIdToIdMap.get("yum"),
+    },
+    {
+      friendsGroupId: kaistGroup.id,
+      friendId: loginIdToIdMap.get("joonce"),
     },
 
-    // 개발자 그룹 (hyunwoo03, junho09 오버랩)
+    // 원티드 그룹
     {
-      friendsGroupId: developerGroup.id,
-      friendId: userIdToIdMap.get("hyunwoo03"),
+      friendsGroupId: onetedGroup.id,
+      friendId: loginIdToIdMap.get("ella"),
     },
     {
-      friendsGroupId: developerGroup.id,
-      friendId: userIdToIdMap.get("junho09"),
+      friendsGroupId: onetedGroup.id,
+      friendId: loginIdToIdMap.get("yum"),
     },
     {
-      friendsGroupId: developerGroup.id,
-      friendId: userIdToIdMap.get("hanna08"),
+      friendsGroupId: onetedGroup.id,
+      friendId: loginIdToIdMap.get("joonce"),
     },
   ].filter((gf) => gf.friendId); // 유효한 friendId만 포함
 
