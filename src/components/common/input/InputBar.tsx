@@ -29,7 +29,7 @@ const InputBar = ({
   };
 
   return (
-    <div className="select-none flex flex-row items-center px-[16px] py-[8px] gap-[8px] bg-gray-100 rounded-[15px]">
+    <div className="select-none min-w-0 flex-1 flex flex-row items-center px-[16px] py-[8px] gap-[8px] bg-gray-100 rounded-[15px]">
       {leftIcon}
       <input
         type="text"
@@ -37,7 +37,7 @@ const InputBar = ({
         placeholder={placeholder}
         onChange={handleValueChange}
         onKeyDown={handleKeyDown}
-        className={`flex-1 focus:outline-none text-[16px] font-medium`}
+        className="flex-1 focus:outline-none text-[16px] font-medium min-w-0"
       />
       {rightIcon}
     </div>

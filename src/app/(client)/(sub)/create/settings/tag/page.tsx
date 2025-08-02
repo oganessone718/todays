@@ -14,16 +14,16 @@ const CreateSettingsTag = () => {
 
   const router = useRouter();
 
-  const [tags, setTags] = useState<Set<string>>(tmpToday.tags);
-  const [tag, setTag] = useState("");
+  const [tagNames, setTagNames] = useState<Set<string>>(tmpToday.tags);
+  const [tagName, setTagName] = useState("");
 
   const onEnterPress = () => {
-    setTags((prev) => {
+    setTagNames((prev) => {
       const newSet = new Set(prev);
-      newSet.add(tag);
+      newSet.add(tagName);
       return newSet;
     });
-    setTag("");
+    setTagName("");
   };
 
   return (
@@ -36,8 +36,8 @@ const CreateSettingsTag = () => {
         <div className="px-[8px] py-[12px] bg-gray-50 border-b-[1px] border-gray-100">
           <InputBar
             placeholder="Enter로 태그 추가"
-            inputText={tag}
-            onChange={setTag}
+            inputText={tagName}
+            onChange={setTagName}
             onEnterPress={onEnterPress}
             leftIcon={
               <span
@@ -51,12 +51,12 @@ const CreateSettingsTag = () => {
           />
         </div>
         <div className="flex flex-col gap-[12px] p-[12px]">
-          {[...tags].map((tag) => (
+          {[...tagNames].map((tag) => (
             <DeletableTag
               key={tag}
               text={tag}
               onDelete={() => {
-                setTags((prev) => {
+                setTagNames((prev) => {
                   const newTags = new Set(prev);
                   newTags.delete(tag);
                   return newTags;
@@ -68,7 +68,7 @@ const CreateSettingsTag = () => {
         <CreateSettingsBottomBar
           buttonText="완료"
           onClick={() => {
-            setTmpToday({ tags: tags });
+            setTmpToday({ tags: tagNames });
             router.push("/create/settings");
           }}
         />
