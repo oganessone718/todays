@@ -2,6 +2,7 @@
 
 import Dropdown from "@/components/common/Dropdown";
 import BackButton from "@/components/common/button/BackButton";
+import IconButton from "@/components/common/button/IconButton";
 import InputBar from "@/components/common/input/InputBar";
 import Header from "@/components/common/layout/Header";
 import UserSelectRow from "@/components/common/user/UserSelectRow";
@@ -31,6 +32,7 @@ const CreateSettingsMention = () => {
   const [friendsGroups, setFriendsGroups] = useState<FriendsGroup[]>([]);
   const [selectedFriendsGroup, setSelectedFriendsGroup] =
     useState<FriendsGroup | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // useEffect
   useEffect(() => {
@@ -134,10 +136,49 @@ const CreateSettingsMention = () => {
 
   return (
     <div className="flex flex-col flex-1">
-      <Header
-        left={<BackButton iconType="x" />}
-        center={<span className="text-lg font-medium">멘션 추가</span>}
-      />
+      {isSearchOpen ? (
+        <Header
+          left={
+            <IconButton
+              iconName="arrow_left_alt"
+              onClick={() => {
+                setIsSearchOpen(false);
+              }}
+            />
+          }
+          center={
+            <InputBar
+              placeholder="친구를 검색해보세요."
+              inputText={tmpSearchText}
+              onChange={setTmpSearchText}
+              onEnterPress={onSearch}
+              rightIcon={
+                <span
+                  className={
+                    "icons-default icons-filled icons-small text-gray-700 font-bold cursor-pointer"
+                  }
+                  onClick={onSearch}
+                >
+                  search
+                </span>
+              }
+            />
+          }
+        />
+      ) : (
+        <Header
+          left={<BackButton iconType="x" />}
+          center={<span className="text-lg font-medium">멘션 추가</span>}
+          right={
+            <IconButton
+              iconName="search"
+              onClick={() => {
+                setIsSearchOpen(true);
+              }}
+            />
+          }
+        />
+      )}
       <div className="flex-1 flex flex-col bg-gray-50">
         <div className="flex flex-row gap-[12px] px-[8px] py-[12px] bg-gray-50 border-b-[1px] border-gray-100">
           <Dropdown
@@ -149,22 +190,6 @@ const CreateSettingsMention = () => {
               }),
             ]}
             onSelect={onGroupSelect}
-          />
-          <InputBar
-            placeholder="친구를 검색해보세요."
-            inputText={tmpSearchText}
-            onChange={setTmpSearchText}
-            onEnterPress={onSearch}
-            rightIcon={
-              <span
-                className={
-                  "icons-default icons-filled icons-small text-gray-700 font-bold cursor-pointer"
-                }
-                onClick={onSearch}
-              >
-                search
-              </span>
-            }
           />
         </div>
         <div className="flex flex-col">
