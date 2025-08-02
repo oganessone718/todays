@@ -23,6 +23,7 @@ const CreateSettingsMention = () => {
 
   const router = useRouter();
 
+  const [tmpSearchText, setTmpSearchText] = useState("");
   const [searchText, setSearchText] = useState("");
   const [user, setUser] = useState<User | null>(null);
   const [friends, setFriends] = useState<User[]>([]);
@@ -59,9 +60,10 @@ const CreateSettingsMention = () => {
     fetchFriends({
       userId: user.id,
       groupId: selectedFriendsGroup?.id,
-      searchText: searchText.trim(),
+      searchText: tmpSearchText.trim(),
     });
-    setSearchText(searchText.trim());
+    setSearchText(tmpSearchText.trim());
+    setTmpSearchText(tmpSearchText.trim());
   };
 
   const onGroupSelect = (name: string) => {
@@ -150,8 +152,8 @@ const CreateSettingsMention = () => {
           />
           <InputBar
             placeholder="친구를 검색해보세요."
-            inputText={searchText}
-            onChange={setSearchText}
+            inputText={tmpSearchText}
+            onChange={setTmpSearchText}
             onEnterPress={onSearch}
             rightIcon={
               <span
