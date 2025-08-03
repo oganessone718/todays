@@ -9,7 +9,7 @@ interface RootLayoutProps {
 }
 
 const pretendard = localFont({
-  src: "../styles/fonts/PretendardVariable.woff2",
+  src: "../../styles/fonts/PretendardVariable.woff2",
 });
 
 export const metadata: Metadata = {
