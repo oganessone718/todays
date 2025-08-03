@@ -23,7 +23,7 @@ const IconButton = ({
       onClick={onClick}
       className={`flex items-center justify-center icons-default cursor-pointer ${
         filled ? "icons-filled" : ""
-      } ${small ? "icons-small" : ""} ${color ? "text-${color}" : ""}`}
+      } ${small ? "icons-small" : ""} ${color ? `text-${color}` : ""}`}
     >
       {iconName}
     </button>

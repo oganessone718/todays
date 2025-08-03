@@ -13,6 +13,7 @@ import { getFriendsByGroupId } from "@/lib/client/groupFriend";
 import { getUserWithLoginId } from "@/lib/client/user";
 import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
+import { isSubset } from "@/utils/set";
 import type { FriendsGroup, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -33,6 +34,11 @@ const CreateSettingsMention = () => {
   const [selectedFriendsGroup, setSelectedFriendsGroup] =
     useState<FriendsGroup | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isAllCheckedMap, setIsAllCheckedMap] = useState<
+    Record<string, boolean>
+  >({});
+
+  const getCurrentGroupId = () => selectedFriendsGroup?.id ?? total;
 
   // useEffect
   useEffect(() => {
@@ -44,7 +50,6 @@ const CreateSettingsMention = () => {
   useEffect(() => {
     if (user === null) return;
     fetchFriendsGroup(user.id);
-    fetchFriends({ userId: user.id });
   }, [user]);
 
   useEffect(() => {
@@ -54,16 +59,20 @@ const CreateSettingsMention = () => {
       groupId: selectedFriendsGroup?.id,
       searchText: searchText,
     });
-  }, [selectedFriendsGroup]);
+  }, [selectedFriendsGroup, searchText, user]);
+
+  useEffect(() => {
+    setIsAllCheckedMap((prev) => ({
+      ...prev,
+      [getCurrentGroupId()]: isSubset({
+        subSet: new Set(friends.map((friend) => friend.id)),
+        set: mentions,
+      }),
+    }));
+  }, [mentions, friends]);
 
   // 이벤트 핸들러
   const onSearch = () => {
-    if (user === null) return;
-    fetchFriends({
-      userId: user.id,
-      groupId: selectedFriendsGroup?.id,
-      searchText: tmpSearchText.trim(),
-    });
     setSearchText(tmpSearchText.trim());
     setTmpSearchText(tmpSearchText.trim());
   };
@@ -89,6 +98,27 @@ const CreateSettingsMention = () => {
     });
   };
 
+  const onAllClick = () => {
+    const currentGroupId = getCurrentGroupId();
+    const isCheckedNow = !isAllCheckedMap[currentGroupId];
+
+    setIsAllCheckedMap((prev) => ({
+      ...prev,
+      [currentGroupId]: isCheckedNow,
+    }));
+
+    setMentions((prev) => {
+      const newMentions = new Set(prev);
+      if (isCheckedNow) {
+        friends.forEach((friend) => newMentions.add(friend.id));
+      } else {
+        friends.forEach((friend) => newMentions.delete(friend.id));
+      }
+      return newMentions;
+    });
+  };
+
+  // TODO: 커스텀 훅으로 분리
   // 데이터 패칭
   const fetchUser = async (loginId: string) => {
     try {
@@ -180,7 +210,7 @@ const CreateSettingsMention = () => {
         />
       )}
       <div className="flex-1 flex flex-col bg-gray-50">
-        <div className="flex flex-row gap-[12px] px-[8px] py-[12px] bg-gray-50 border-b-[1px] border-gray-100">
+        <div className="flex flex-row pl-[8px] py-[12px] bg-gray-50 border-b-[1px] border-gray-100 justify-between pr-[16px]">
           <Dropdown
             selected={selectedFriendsGroup ? selectedFriendsGroup.name : total}
             options={[
@@ -190,6 +220,16 @@ const CreateSettingsMention = () => {
               }),
             ]}
             onSelect={onGroupSelect}
+          />
+          <IconButton
+            color="gray-900"
+            filled={true}
+            iconName={
+              isAllCheckedMap[getCurrentGroupId()]
+                ? "check_box"
+                : "check_box_outline_blank"
+            }
+            onClick={onAllClick}
           />
         </div>
         <div className="flex flex-col">

@@ -15,7 +15,7 @@ const Dropdown = ({
   options,
   onSelect = (_: string) => {},
   initOpen = false,
-  width = 120,
+  width = 200,
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(initOpen);
   return (
