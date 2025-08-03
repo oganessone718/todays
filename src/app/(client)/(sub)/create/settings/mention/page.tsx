@@ -7,14 +7,10 @@ import InputBar from "@/components/common/input/InputBar";
 import Header from "@/components/common/layout/Header";
 import UserSelectRow from "@/components/common/user/UserSelectRow";
 import CreateSettingsBottomBar from "@/components/features/create/CreateSettingBottomBar";
-import { getFriendsGroupByUserId } from "@/lib/client/friendsGroup";
-import { getFriendsByUserId } from "@/lib/client/friendship";
-import { getFriendsByGroupId } from "@/lib/client/groupFriend";
-import { getUserWithLoginId } from "@/lib/client/user";
+import { useFriendsData } from "@/hooks/useFriends";
 import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { isSubset } from "@/utils/set";
-import type { FriendsGroup, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -25,41 +21,22 @@ const CreateSettingsMention = () => {
 
   const router = useRouter();
 
-  const [tmpSearchText, setTmpSearchText] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [user, setUser] = useState<User | null>(null);
-  const [friends, setFriends] = useState<User[]>([]);
-  const [mentions, setMentions] = useState<Set<string>>(tmpToday.mentions);
-  const [friendsGroups, setFriendsGroups] = useState<FriendsGroup[]>([]);
-  const [selectedFriendsGroup, setSelectedFriendsGroup] =
-    useState<FriendsGroup | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [mentions, setMentions] = useState<Set<string>>(tmpToday.mentions);
+  const [tmpSearchText, setTmpSearchText] = useState("");
   const [isAllCheckedMap, setIsAllCheckedMap] = useState<
     Record<string, boolean>
   >({});
 
+  const {
+    friends,
+    friendsGroups,
+    selectedFriendsGroup,
+    setSelectedFriendsGroup,
+    setSearchText,
+  } = useFriendsData(loginId);
+
   const getCurrentGroupId = () => selectedFriendsGroup?.id ?? total;
-
-  // useEffect
-  useEffect(() => {
-    if (loginId) {
-      fetchUser(loginId);
-    }
-  }, [loginId]);
-
-  useEffect(() => {
-    if (user === null) return;
-    fetchFriendsGroup(user.id);
-  }, [user]);
-
-  useEffect(() => {
-    if (user === null) return;
-    fetchFriends({
-      userId: user.id,
-      groupId: selectedFriendsGroup?.id,
-      searchText: searchText,
-    });
-  }, [selectedFriendsGroup, searchText, user]);
 
   useEffect(() => {
     setIsAllCheckedMap((prev) => ({
@@ -71,7 +48,6 @@ const CreateSettingsMention = () => {
     }));
   }, [mentions, friends]);
 
-  // 이벤트 핸들러
   const onSearch = () => {
     setSearchText(tmpSearchText.trim());
     setTmpSearchText(tmpSearchText.trim());
@@ -116,52 +92,6 @@ const CreateSettingsMention = () => {
       }
       return newMentions;
     });
-  };
-
-  // TODO: 커스텀 훅으로 분리
-  // 데이터 패칭
-  const fetchUser = async (loginId: string) => {
-    try {
-      const userData = await getUserWithLoginId(loginId);
-      setUser(userData);
-    } catch (error) {
-      console.error("Failed to fetch user in mention setting page:", error);
-    }
-  };
-
-  const fetchFriendsGroup = async (userId: string) => {
-    try {
-      const friendsGroupData = await getFriendsGroupByUserId(userId);
-      setFriendsGroups(friendsGroupData);
-    } catch (error) {
-      console.error(
-        "Failed to fetch friends group in mention setting page:",
-        error
-      );
-    }
-  };
-
-  const fetchFriends = async ({
-    userId,
-    groupId,
-    searchText,
-  }: {
-    userId: string;
-    groupId?: string;
-    searchText?: string;
-  }) => {
-    try {
-      const friendsData = groupId
-        ? await getFriendsByGroupId({
-            friendsGroupId: groupId,
-            searchText: searchText,
-          })
-        : await getFriendsByUserId({ userId: userId, searchText: searchText });
-
-      setFriends(friendsData);
-    } catch (error) {
-      console.error("Failed to fetch friends in mention page:", error);
-    }
   };
 
   return (
