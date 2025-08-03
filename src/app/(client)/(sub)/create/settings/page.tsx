@@ -6,10 +6,22 @@ import CreateSettingsBottomBar from "@/components/features/create/CreateSettingB
 import MentionSetting from "@/components/features/create/settings/MentionSetting";
 import TagSetting from "@/components/features/create/settings/TagSetting";
 import VisibilitySetting from "@/components/features/create/settings/VisibilitySetting";
+import { useUser } from "@/hooks/useUser";
+import { createToday } from "@/lib/client/today";
+import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
+import { useRouter } from "next/navigation";
 
 const CreateSettings = () => {
   const { tmpToday } = useTmpTodayStore();
+  const { user } = useUser(loginId);
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    if (!user) return;
+    const newToday = await createToday(user.id, tmpToday);
+    router.push(`diary/${user.id}/today/${newToday.id}`);
+  };
 
   return (
     <div className="flex flex-col flex-1 bg-gray-50">
@@ -21,12 +33,7 @@ const CreateSettings = () => {
         <TagSetting />
         <MentionSetting />
         <VisibilitySetting />
-        <CreateSettingsBottomBar
-          buttonText="등록하기"
-          onClick={() => {
-            console.log(tmpToday);
-          }}
-        />
+        <CreateSettingsBottomBar buttonText="등록하기" onClick={onSubmit} />
       </div>
     </div>
   );
