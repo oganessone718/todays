@@ -108,6 +108,8 @@ const CreateSettingsMention = () => {
               iconName="arrow_left_alt"
               onClick={() => {
                 setIsSearchOpen(false);
+                setTmpSearchText("")
+                setSearchText("")
               }}
             />
           }
