@@ -3,10 +3,8 @@ import { User } from "@prisma/client";
 
 const getFriendsByUserId = async ({
   userId,
-  searchText = null,
 }: {
   userId: string;
-  searchText?: string | null;
 }) => {
   try {
     const friendshipData = await prisma.friendship.findMany({
@@ -21,13 +19,6 @@ const getFriendsByUserId = async ({
 
     const friendsData: User[] = friendshipData
       .map((fd) => (fd.user1.id === userId ? fd.user2 : fd.user1))
-      .filter((friend) => {
-        if (!searchText) return true;
-        return (
-          friend.nickname.toLowerCase().includes(searchText.toLowerCase()) ||
-          friend.loginId.toLowerCase().includes(searchText.toLowerCase())
-        );
-      });
 
     return friendsData;
   } catch (error) {
