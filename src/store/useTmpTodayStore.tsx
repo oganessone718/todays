@@ -8,7 +8,8 @@ export interface TmpTodayValues {
   emojiUrl: string;
   mentions: Set<string>;
   tags: Set<string>;
-  visibles: Set<string>;
+  visiblePeople: Set<string>;
+  visibleGroups: Set<string>;
 }
 
 interface TmpTodayStore {
@@ -24,7 +25,8 @@ const useTmpTodayStore = create<TmpTodayStore>((set) => ({
     date: new Date().toISOString().split("T")[0],
     mentions: new Set(),
     tags: new Set(),
-    visibles: new Set(),
+    visiblePeople: new Set(),
+    visibleGroups: new Set(),
   },
 
   setTmpToday: (updates) =>
@@ -45,7 +47,8 @@ const useTmpTodayStore = create<TmpTodayStore>((set) => ({
         date: "",
         mentions: new Set(),
         tags: new Set(),
-        visibles: new Set(),
+        visiblePeople: new Set(),
+        visibleGroups: new Set(),
       },
     }),
 }));
