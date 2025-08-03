@@ -20,7 +20,7 @@ const CreateSettings = () => {
   const onSubmit = async () => {
     if (!user) return;
     const newToday = await createToday(user.id, tmpToday);
-    router.push(`/diary/${newToday.id}`);
+    router.push(`diary/${user.id}/today/${newToday.id}`);
   };
 
   return (
