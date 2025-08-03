@@ -7,7 +7,9 @@ import InputBar from "@/components/common/input/InputBar";
 import Header from "@/components/common/layout/Header";
 import UserSelectRow from "@/components/common/user/UserSelectRow";
 import CreateSettingsBottomBar from "@/components/features/create/CreateSettingBottomBar";
-import { useFriendsData } from "@/hooks/useFriends";
+import { useFriend } from "@/hooks/useFriend";
+import { useFriendsGroup } from "@/hooks/useFriendsGroup";
+import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { isSubset } from "@/utils/set";
@@ -28,13 +30,16 @@ const CreateSettingsMention = () => {
     Record<string, boolean>
   >({});
 
+  const { user } = useUser(loginId);
+
+  const { friendsGroups } = useFriendsGroup(user?.id ?? null);
+
   const {
     friends,
-    friendsGroups,
     selectedFriendsGroup,
     setSelectedFriendsGroup,
     setSearchText,
-  } = useFriendsData(loginId);
+  } = useFriend(user?.id ?? null);
 
   const getCurrentGroupId = () => selectedFriendsGroup?.id ?? total;
 
@@ -103,6 +108,8 @@ const CreateSettingsMention = () => {
               iconName="arrow_left_alt"
               onClick={() => {
                 setIsSearchOpen(false);
+                setTmpSearchText("")
+                setSearchText("")
               }}
             />
           }

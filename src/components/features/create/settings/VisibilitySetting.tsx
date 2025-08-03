@@ -1,15 +1,16 @@
 "use client";
 
+import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useRouter } from "next/navigation";
 import Setting from "./_atomic/Setting";
-import useTmpTodayStore from "@/store/useTmpTodayStore";
 
 const VisibilitySetting = () => {
   const router = useRouter();
   const { tmpToday } = useTmpTodayStore();
 
   const visibilityDescription = () => {
-    const visiblesLength = tmpToday.visibles.length;
+    const visiblesLength =
+      tmpToday.visibleGroups.size + tmpToday.visiblePeople.size;
     if (visiblesLength === 0) {
       return "전체 공개";
     } else if (visiblesLength === 1) {

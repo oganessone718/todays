@@ -1,8 +1,8 @@
 "use client";
 
+import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useRouter } from "next/navigation";
 import Setting from "./_atomic/Setting";
-import useTmpTodayStore from "@/store/useTmpTodayStore";
 
 const MentionSetting = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const MentionSetting = () => {
     <Setting
       icon="group"
       text="함께 한 사람을 멘션해보세요."
-      description={tmpToday.mentions.length > 0 ? `${tmpToday.tags.length}명` : ""}
+      description={tmpToday.mentions.size > 0 ? `${tmpToday.mentions.size}명` : ""}
       onClick={() => {
         router.push("/create/settings/mention");
       }}

@@ -2,19 +2,14 @@ import { User } from "@prisma/client";
 
 const getFriendsByGroupId = async ({
   friendsGroupId,
-  searchText = "",
 }: {
   friendsGroupId: string;
-  searchText?: string;
 }) => {
   try {
     const url = new URL(
       `/api/group-friend/${friendsGroupId}/friends`,
       window.location.origin
     );
-    if (searchText) {
-      url.searchParams.append("searchText", searchText);
-    }
 
     const friendsRes = await fetch(url.toString());
 

@@ -42,21 +42,22 @@ model User {
 }
 
 model Today {
-  id                  String               @id @default(cuid())
-  userId              String
-  title               String               @db.VarChar(20)
-  emojiUrl            String
-  content             String
-  date                DateTime             @db.Date
-  createdAt           DateTime             @default(now()) 
-  updatedAt           DateTime             @updatedAt 
+  id                        String               @id @default(cuid())
+  userId                    String
+  title                     String               @db.VarChar(20)
+  emojiUrl                  String
+  content                   String
+  date                      DateTime             @db.Date
+  createdAt                 DateTime             @default(now()) 
+  updatedAt                 DateTime             @updatedAt 
 
-  user                User                 @relation(fields: [userId], references: [id])
-  todayTags           TodayTag[]
-  todayMentionedUsers TodayMentionUser[]
-  todayVisibleUsers   TodayVisibleUser[]
-  comments            Comment[]
-  reactions           Reaction[]
+  user                      User                 @relation(fields: [userId], references: [id])
+  todayTags                 TodayTag[]
+  todayMentionedUsers       TodayMentionUser[]
+  todayVisibleUsers         TodayVisibleUser[]
+  todayVisibleFriendsGroups TodayVisibleFriendsGroup[]
+  comments                  Comment[]
+  reactions                 Reaction[]
 }
 
 model TodayTag {
@@ -84,6 +85,15 @@ model TodayVisibleUser {
 
   today         Today  @relation(fields: [todayId], references: [id])
   visibleUser   User   @relation(fields: [visibleUserId], references: [id])
+}
+
+model TodayVisibleFriendsGroup {
+  id                    String       @id @default(cuid())
+  todayId               String
+  friendsGroupId        String
+
+  today                 Today        @relation(fields: [todayId], references: [id])
+  visibleFriendsGroup   FriendsGroup @relation(fields: [friendsGroupId], references: [id])
 }
 
 model Tag {
@@ -135,12 +145,14 @@ model Friendship {
 }
 
 model FriendsGroup {
-  id       String @id @default(cuid())
-  name     String @db.VarChar(20)
-  userId   String
+  id            String @id @default(cuid())
+  name          String @db.VarChar(20)
+  userId        String
+  description   String
 
   user       User         @relation(fields: [userId], references: [id])
   groupFriends GroupFriend[]
+  visibleTodays TodayVisibleFriendsGroup[]
 }
 
 model GroupFriend {

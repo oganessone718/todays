@@ -8,11 +8,9 @@ export async function GET(
   const { friendsGroupId } = await params;
 
   const { searchParams } = new URL(request.url);
-  const searchText = searchParams.get("searchText");
   try {
     const groupFriendsData = await getFriendsByGroupId({
       friendsGroupId: friendsGroupId,
-      searchText: searchText,
     });
 
     if (!groupFriendsData) {
