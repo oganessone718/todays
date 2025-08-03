@@ -159,6 +159,7 @@ async function main() {
     data: {
       name: "스팍스",
       userId: oganessonUser.id,
+      description: "개발 동아리 스팍스",
     },
   });
 
@@ -166,6 +167,7 @@ async function main() {
     data: {
       name: "KAIST",
       userId: oganessonUser.id,
+      description: "한국과학기술원 멤버들",
     },
   });
 
@@ -173,6 +175,7 @@ async function main() {
     data: {
       name: "원티드",
       userId: oganessonUser.id,
+      description: "KAIST 일반고등학교 모임",
     },
   });
 
