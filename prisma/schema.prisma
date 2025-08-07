@@ -51,7 +51,7 @@ model Today {
   createdAt                 DateTime             @default(now()) 
   updatedAt                 DateTime             @updatedAt 
 
-  user                      User                 @relation(fields: [userId], references: [id])
+  user                      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   todayTags                 TodayTag[]
   todayMentionedUsers       TodayMentionUser[]
   todayVisibleUsers         TodayVisibleUser[]
@@ -65,8 +65,8 @@ model TodayTag {
   todayId String 
   tagId   String 
 
-  today   Today  @relation(fields: [todayId], references: [id])
-  tag     Tag    @relation(fields: [tagId], references: [id])
+  today   Today  @relation(fields: [todayId], references: [id], onDelete: Cascade)
+  tag     Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
 }
 
 model TodayMentionUser {
@@ -74,8 +74,8 @@ model TodayMentionUser {
   todayId         String 
   mentionedUserId String 
 
-  today           Today  @relation(fields: [todayId], references: [id])
-  mentionedUser   User   @relation(fields: [mentionedUserId], references: [id])
+  today           Today  @relation(fields: [todayId], references: [id], onDelete: Cascade)
+  mentionedUser   User   @relation(fields: [mentionedUserId], references: [id], onDelete: Cascade)
 }
 
 model TodayVisibleUser {
@@ -83,8 +83,8 @@ model TodayVisibleUser {
   todayId       String 
   visibleUserId String 
 
-  today         Today  @relation(fields: [todayId], references: [id])
-  visibleUser   User   @relation(fields: [visibleUserId], references: [id])
+  today         Today  @relation(fields: [todayId], references: [id], onDelete: Cascade)
+  visibleUser   User   @relation(fields: [visibleUserId], references: [id], onDelete: Cascade)
 }
 
 model TodayVisibleFriendsGroup {
@@ -92,8 +92,8 @@ model TodayVisibleFriendsGroup {
   todayId               String
   friendsGroupId        String
 
-  today                 Today        @relation(fields: [todayId], references: [id])
-  visibleFriendsGroup   FriendsGroup @relation(fields: [friendsGroupId], references: [id])
+  today                 Today        @relation(fields: [todayId], references: [id], onDelete: Cascade)
+  visibleFriendsGroup   FriendsGroup @relation(fields: [friendsGroupId], references: [id], onDelete: Cascade)
 }
 
 model Tag {
@@ -101,8 +101,10 @@ model Tag {
   userId  String
   name    String @db.VarChar(20)
 
-  user      User       @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   todayTags TodayTag[]
+  
+  @@unique([userId, name]) 
 }
 
 model Comment {
@@ -115,7 +117,7 @@ model Comment {
   updatedAt       DateTime  @updatedAt
 
   user            User      @relation(fields: [userId], references: [id])
-  today           Today     @relation(fields: [todayId], references: [id])
+  today           Today     @relation(fields: [todayId], references: [id], onDelete: Cascade)
   parentComment   Comment?  @relation("ParentChildComments", fields: [parentCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   childComments   Comment[] @relation("ParentChildComments")
 }
@@ -129,7 +131,7 @@ model Reaction {
   updatedAt DateTime @updatedAt
 
   user      User     @relation(fields: [userId], references: [id])
-  today     Today    @relation(fields: [todayId], references: [id])
+  today     Today    @relation(fields: [todayId], references: [id], onDelete: Cascade)
 }
 
 model Friendship {
@@ -150,7 +152,7 @@ model FriendsGroup {
   userId        String
   description   String
 
-  user       User         @relation(fields: [userId], references: [id])
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   groupFriends GroupFriend[]
   visibleTodays TodayVisibleFriendsGroup[]
 }
@@ -160,8 +162,8 @@ model GroupFriend {
   friendsGroupId String 
   friendId       String 
 
-  friendsGroup   FriendsGroup @relation(fields: [friendsGroupId], references: [id])
-  friend         User         @relation(fields: [friendId], references: [id])
+  friendsGroup   FriendsGroup @relation(fields: [friendsGroupId], references: [id], onDelete: Cascade)
+  friend         User         @relation(fields: [friendId], references: [id], onDelete: Cascade)
 }
 
 model Notification {
@@ -173,5 +175,5 @@ model Notification {
   createdAt     DateTime @default(now())
 
   actorUser     User     @relation("ActorNotifications", fields: [actorUserId], references: [id])
-  user          User     @relation("UserNotifications", fields: [userId], references: [id])
+  user          User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
 }
