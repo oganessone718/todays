@@ -15,19 +15,21 @@ export interface TmpTodayValues {
 interface TmpTodayStore {
   tmpToday: TmpTodayValues;
   setTmpToday: (tmpToday: Partial<TmpTodayValues>) => void;
+  resetTmpToday: () => void;
 }
+const initialTmpTodayState: TmpTodayValues = {
+  title: "",
+  emojiUrl: "",
+  content: "",
+  date: new Date().toISOString().split("T")[0],
+  mentions: new Set(),
+  tags: new Set(),
+  visiblePeople: new Set(),
+  visibleGroups: new Set(),
+};
 
 const useTmpTodayStore = create<TmpTodayStore>((set) => ({
-  tmpToday: {
-    title: "",
-    emojiUrl: "",
-    content: "",
-    date: new Date().toISOString().split("T")[0],
-    mentions: new Set(),
-    tags: new Set(),
-    visiblePeople: new Set(),
-    visibleGroups: new Set(),
-  },
+  tmpToday: initialTmpTodayState,
 
   setTmpToday: (updates) =>
     set((state) => ({
@@ -40,16 +42,7 @@ const useTmpTodayStore = create<TmpTodayStore>((set) => ({
 
   resetTmpToday: () =>
     set({
-      tmpToday: {
-        title: "",
-        emojiUrl: "",
-        content: "",
-        date: "",
-        mentions: new Set(),
-        tags: new Set(),
-        visiblePeople: new Set(),
-        visibleGroups: new Set(),
-      },
+      tmpToday: initialTmpTodayState,
     }),
 }));
 

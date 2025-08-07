@@ -13,14 +13,15 @@ import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useRouter } from "next/navigation";
 
 const CreateSettings = () => {
-  const { tmpToday } = useTmpTodayStore();
+  const { tmpToday, resetTmpToday } = useTmpTodayStore();
   const { user } = useUser(loginId);
   const router = useRouter();
 
   const onSubmit = async () => {
     if (!user) return;
     const newToday = await createToday(user.id, tmpToday);
-    router.push(`diary/${user.id}/today/${newToday.id}`);
+    router.push(`/diary/${user.id}/today/${newToday.id}`);
+    resetTmpToday();
   };
 
   return (
@@ -30,9 +31,21 @@ const CreateSettings = () => {
         center={<span className="text-lg font-medium">To.Day 상세 설정</span>}
       />
       <div className="flex-1 flex flex-col">
-        <TagSetting />
-        <MentionSetting />
-        <VisibilitySetting />
+        <TagSetting
+          onClick={() => {
+            router.push("/create/settings/tag");
+          }}
+        />
+        <MentionSetting
+          onClick={() => {
+            router.push("/create/settings/mention");
+          }}
+        />
+        <VisibilitySetting
+          onClick={() => {
+            router.push("/create/settings/visibility");
+          }}
+        />
         <CreateSettingsBottomBar buttonText="등록하기" onClick={onSubmit} />
       </div>
     </div>

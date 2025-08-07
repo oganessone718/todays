@@ -1,11 +1,9 @@
 "use client";
 
 import useTmpTodayStore from "@/store/useTmpTodayStore";
-import { useRouter } from "next/navigation";
 import Setting from "./_atomic/Setting";
 
-const VisibilitySetting = () => {
-  const router = useRouter();
+const VisibilitySetting = ({ onClick }: { onClick: () => void }) => {
   const { tmpToday } = useTmpTodayStore();
 
   const visibilityDescription = () => {
@@ -25,9 +23,7 @@ const VisibilitySetting = () => {
       icon="lock"
       text="공개 범위를 설정해보세요."
       description={visibilityDescription()}
-      onClick={() => {
-        router.push("/create/settings/visibility");
-      }}
+      onClick={onClick}
     />
   );
 };

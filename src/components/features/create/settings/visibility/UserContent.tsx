@@ -65,7 +65,7 @@ const UserContent = ({
     });
   };
 
-  const onAllClick = () => {
+  const onAllClick: () => void = () => {
     const currentGroupId = getCurrentGroupId();
     const isCheckedNow = !isAllCheckedMap[currentGroupId];
 
@@ -103,7 +103,7 @@ const UserContent = ({
             color="gray-900"
             filled={true}
             iconName={
-              isAllCheckedMap[getCurrentGroupId()]
+              friends.length > 0 && isAllCheckedMap[getCurrentGroupId()]
                 ? "check_box"
                 : "check_box_outline_blank"
             }

@@ -2,7 +2,7 @@ import React from "react";
 
 interface AtomicTagProps {
   color: "primary" | "secondary";
-  iconType: "mention" | "tag";
+  iconType: "mention" | "tag" | "some" | "none";
   text: React.ReactNode;
   isDeletable?: boolean;
   onDelete?: () => void;
@@ -14,6 +14,10 @@ const getIconName = (iconType: string) => {
       return "group";
     case "tag":
       return "grid_3x3";
+    case "some":
+      return "kid_star";
+    case "none":
+      return "lock";
   }
 };
 

@@ -13,15 +13,16 @@ import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { isSubset } from "@/utils/set";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const total = "전체 친구";
 
-const CreateSettingsMention = () => {
+const EditSettingsMention = () => {
   const { setTmpToday, tmpToday } = useTmpTodayStore();
 
   const router = useRouter();
+  const params = useParams();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mentions, setMentions] = useState<Set<string>>(tmpToday.mentions);
@@ -135,7 +136,7 @@ const CreateSettingsMention = () => {
       ) : (
         <Header
           left={<BackButton iconType="x" />}
-          center={<span className="text-lg font-medium">멘션 추가</span>}
+          center={<span className="text-lg font-medium">멘션 수정</span>}
           right={
             <IconButton
               iconName="search"
@@ -185,12 +186,13 @@ const CreateSettingsMention = () => {
           buttonText="완료"
           onClick={() => {
             setTmpToday({ mentions: mentions });
-            router.push("/create/settings");
-          }}
+            router.push(
+              `/diary/${params.userId?.toString()}/today/${params.todayId?.toString()}/edit/settings`
+            );          }}
         />
       </div>
     </div>
   );
 };
 
-export default CreateSettingsMention;
+export default EditSettingsMention;
