@@ -1,5 +1,5 @@
-import { UseFormRegister, UseFormWatch } from "react-hook-form";
 import { TmpTodayValues } from "@/store/useTmpTodayStore";
+import { UseFormRegister, UseFormWatch } from "react-hook-form";
 
 export interface TitleInputProps {
   register: UseFormRegister<TmpTodayValues>;
@@ -17,7 +17,7 @@ const TitleInput = ({ register, watch, initialValue }: TitleInputProps) => {
       <input
         type="text"
         placeholder="제목을 입력해주세요."
-        value={title}
+        value={title ?? ""}
         className={`flex-1 focus:outline-none text-[18px] font-medium`}
         {...register("title", { required: true, maxLength: 20 })}
       />
