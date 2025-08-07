@@ -1,5 +1,12 @@
 import { TmpTodayValues } from "@/store/useTmpTodayStore";
-import { FriendsGroup, Reaction, Tag, Today, User } from "@prisma/client";
+import {
+  Comment,
+  FriendsGroup,
+  Reaction,
+  Tag,
+  Today,
+  User,
+} from "@prisma/client";
 
 export interface tmpStructuredTodayValues {
   title: string;
