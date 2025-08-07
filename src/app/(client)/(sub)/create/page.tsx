@@ -1,17 +1,18 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import Header from "@/components/common/layout/Header";
 import BackButton from "@/components/common/button/BackButton";
-import TitleInput from "@/components/features/create/TitleInput";
+import Header from "@/components/common/layout/Header";
 import ContentInput from "@/components/features/create/ContentInput";
 import CreateBottomBar from "@/components/features/create/CreateBottomBar";
 import DateEmojiInput from "@/components/features/create/DateEmojiInput";
+import TitleInput from "@/components/features/create/TitleInput";
 import useTmpTodayStore, { TmpTodayValues } from "@/store/useTmpTodayStore";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 const Create = () => {
-  const { tmpToday, setTmpToday } = useTmpTodayStore();
+  const { tmpToday, setTmpToday, resetTmpToday } = useTmpTodayStore();
   const { register, handleSubmit, watch, setValue } = useForm({
     defaultValues: tmpToday,
   });
@@ -21,6 +22,10 @@ const Create = () => {
     setTmpToday(data);
     router.push("/create/settings");
   };
+
+  useEffect(() => {
+    resetTmpToday();
+  }, []);
 
   return (
     <div className="flex flex-col flex-1">
