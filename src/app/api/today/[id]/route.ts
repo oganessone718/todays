@@ -27,8 +27,10 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const { id } = await params;
+
   try {
-    const todayId = await params.id;
+    const todayId = id;
     const body = await req.json();
     const {
       userId,

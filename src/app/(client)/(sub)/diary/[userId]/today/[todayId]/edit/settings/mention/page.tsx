@@ -13,7 +13,7 @@ import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { isSubset } from "@/utils/set";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const total = "전체 친구";
@@ -22,6 +22,7 @@ const EditSettingsMention = () => {
   const { setTmpToday, tmpToday } = useTmpTodayStore();
 
   const router = useRouter();
+  const params = useParams();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mentions, setMentions] = useState<Set<string>>(tmpToday.mentions);
@@ -108,8 +109,8 @@ const EditSettingsMention = () => {
               iconName="arrow_left_alt"
               onClick={() => {
                 setIsSearchOpen(false);
-                setTmpSearchText("")
-                setSearchText("")
+                setTmpSearchText("");
+                setSearchText("");
               }}
             />
           }
@@ -162,7 +163,7 @@ const EditSettingsMention = () => {
             color="gray-900"
             filled={true}
             iconName={
-              isAllCheckedMap[getCurrentGroupId()]
+              friends.length > 0 && isAllCheckedMap[getCurrentGroupId()]
                 ? "check_box"
                 : "check_box_outline_blank"
             }
@@ -185,8 +186,9 @@ const EditSettingsMention = () => {
           buttonText="완료"
           onClick={() => {
             setTmpToday({ mentions: mentions });
-            router.push("/create/settings");
-          }}
+            router.push(
+              `/diary/${params.userId?.toString()}/today/${params.todayId?.toString()}/edit/settings`
+            );          }}
         />
       </div>
     </div>

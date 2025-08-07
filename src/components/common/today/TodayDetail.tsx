@@ -4,13 +4,12 @@ import ContentSection from "@/components/features/diary/ContentSection";
 import { useToday } from "@/hooks/useToday";
 import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
-import { Today } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { overlay } from "overlay-kit";
 import TagsSection from "./TagsSection";
 import TitleSection from "./TitleSection";
 
-const Today = ({ todayId }: { todayId: string }) => {
+const TodayDetail = ({ todayId }: { todayId: string }) => {
   const { user } = useUser(loginId);
   const { today, tags, mentions, deleteTodayByTodayId } = useToday(todayId);
 
@@ -18,11 +17,9 @@ const Today = ({ todayId }: { todayId: string }) => {
 
   return (
     user &&
-    today &&
-    tags &&
-    mentions && (
+    today && (
       <div className="border-b-[1px] border-gray-100 bg-white">
-        <div className="px-[8px] flex flex-col">
+        <div className="px-[16px] flex flex-col">
           <UserTodayRow
             user={user}
             visibility="some"
@@ -70,4 +67,4 @@ const Today = ({ todayId }: { todayId: string }) => {
   );
 };
 
-export default Today;
+export default TodayDetail;

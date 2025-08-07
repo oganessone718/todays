@@ -6,13 +6,14 @@ import Header from "@/components/common/layout/Header";
 import DeletableTag from "@/components/common/tag/DeletableTag";
 import CreateSettingsBottomBar from "@/components/features/create/CreateSettingBottomBar";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const EditSettingsTag = () => {
   const { setTmpToday, tmpToday } = useTmpTodayStore();
 
   const router = useRouter();
+  const params = useParams();
 
   const [tagNames, setTagNames] = useState<Set<string>>(tmpToday.tags);
   const [tagName, setTagName] = useState("");
@@ -69,7 +70,9 @@ const EditSettingsTag = () => {
           buttonText="완료"
           onClick={() => {
             setTmpToday({ tags: tagNames });
-            router.push("/create/settings");
+            router.push(
+              `/diary/${params.userId?.toString()}/today/${params.todayId?.toString()}/edit/settings`
+            );
           }}
         />
       </div>

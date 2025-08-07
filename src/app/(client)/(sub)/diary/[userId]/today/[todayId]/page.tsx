@@ -3,7 +3,7 @@
 import IconButton from "@/components/common/button/IconButton";
 import Header from "@/components/common/layout/Header";
 import CommentReactionBar from "@/components/common/today/CommentReaction";
-import Today from "@/components/common/today/Today";
+import TodayDetail from "@/components/common/today/TodayDetail";
 import { useToday } from "@/hooks/useToday";
 import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
@@ -40,7 +40,7 @@ const DiaryToday = () => {
           </span>
         }
       />
-      {params.todayId && <Today todayId={params.todayId.toString()} />}
+      {params.todayId && <TodayDetail todayId={params.todayId.toString()} />}
       <CommentReactionBar
         reactionsCount={reactions?.length ?? 0}
         commentsCount={comments?.length ?? 0}

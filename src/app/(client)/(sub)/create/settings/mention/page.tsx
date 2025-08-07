@@ -108,8 +108,8 @@ const CreateSettingsMention = () => {
               iconName="arrow_left_alt"
               onClick={() => {
                 setIsSearchOpen(false);
-                setTmpSearchText("")
-                setSearchText("")
+                setTmpSearchText("");
+                setSearchText("");
               }}
             />
           }
@@ -162,7 +162,7 @@ const CreateSettingsMention = () => {
             color="gray-900"
             filled={true}
             iconName={
-              isAllCheckedMap[getCurrentGroupId()]
+              friends.length > 0 && isAllCheckedMap[getCurrentGroupId()]
                 ? "check_box"
                 : "check_box_outline_blank"
             }

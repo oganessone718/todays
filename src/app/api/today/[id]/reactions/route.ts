@@ -1,4 +1,4 @@
-import { getReactionsByTodayId } from "@/lib/server/reaction";
+import { getReactionsByTodayId } from "@/lib/server/today";
 import { NextResponse } from "next/server";
 
 export async function GET(_: Request, { params }: { params: { id: string } }) {

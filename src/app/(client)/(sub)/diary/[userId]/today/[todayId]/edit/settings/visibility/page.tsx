@@ -13,11 +13,12 @@ import { useFriendsGroup } from "@/hooks/useFriendsGroup";
 import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const EditSettingsVisibility = () => {
   const router = useRouter();
+  const params = useParams();
 
   const { setTmpToday, tmpToday } = useTmpTodayStore();
   const [visibleGroups, setVisibleGroups] = useState<Set<string>>(
@@ -134,8 +135,9 @@ const EditSettingsVisibility = () => {
               visiblePeople: visibleWithUser,
               visibleGroups: visibleGroups,
             });
-            router.push("/create/settings");
-          }}
+            router.push(
+              `/diary/${params.userId?.toString()}/today/${params.todayId?.toString()}/edit/settings`
+            );          }}
         />
       </div>
     </div>

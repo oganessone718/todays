@@ -37,12 +37,38 @@ const EditSettings = () => {
           <span className="text-lg font-medium">To.Day 상세 설정 수정</span>
         }
       />
-      <div className="flex-1 flex flex-col">
-        <TagSetting />
-        <MentionSetting />
-        <VisibilitySetting />
-        <CreateSettingsBottomBar buttonText="수정하기" onClick={onSubmit} />
-      </div>
+      {user && (
+        <div className="flex-1 flex flex-col">
+          <TagSetting
+            onClick={() => {
+              router.push(
+                `/diary/${user.id}/today/${
+                  params.todayId?.toString() ?? ""
+                }/edit/settings/tag`
+              );
+            }}
+          />
+          <MentionSetting
+            onClick={() => {
+              router.push(
+                `/diary/${user.id}/today/${
+                  params.todayId?.toString() ?? ""
+                }/edit/settings/mention`
+              );
+            }}
+          />
+          <VisibilitySetting
+            onClick={() => {
+              router.push(
+                `/diary/${user.id}/today/${
+                  params.todayId?.toString() ?? ""
+                }/edit/settings/visibility`
+              );
+            }}
+          />
+          <CreateSettingsBottomBar buttonText="수정하기" onClick={onSubmit} />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,11 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Setting from "./_atomic/Setting";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
+import Setting from "./_atomic/Setting";
 
-const TagSetting = () => {
-  const router = useRouter();
+const TagSetting = ({ onClick }: { onClick: () => void }) => {
   const { tmpToday } = useTmpTodayStore();
 
   return (
@@ -13,9 +11,7 @@ const TagSetting = () => {
       icon="grid_3x3"
       text="태그를 추가해보세요."
       description={tmpToday.tags.size > 0 ? `${tmpToday.tags.size}개` : ""}
-      onClick={() => {
-        router.push("/create/settings/tag");
-      }}
+      onClick={onClick}
     />
   );
 };

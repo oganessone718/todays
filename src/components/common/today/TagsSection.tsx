@@ -6,15 +6,17 @@ const TagsSection = ({
   mentions,
   tags,
 }: {
-  mentions: User[];
-  tags: TagType[];
+  mentions: User[] | null;
+  tags: TagType[] | null;
 }) => {
   return (
     <div className="p-[16px] flex flex-row gap-[4px]">
-      {mentions.length > 0 && (
+      {mentions && mentions.length > 0 && (
         <MentionTag text={mentions[0].nickname} count={mentions.length} />
       )}
-      {tags.length > 0 && <Tag text={tags[0].name} count={tags.length} />}
+      {tags && tags.length > 0 && (
+        <Tag text={tags[0].name} count={tags.length} />
+      )}
     </div>
   );
 };

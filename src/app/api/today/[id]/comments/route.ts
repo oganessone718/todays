@@ -1,4 +1,4 @@
-import { getCommentsByTodayId } from "@/lib/server/comments";
+import { getCommentsByTodayId } from "@/lib/server/today";
 import { NextResponse } from "next/server";
 
 export async function GET(_: Request, { params }: { params: { id: string } }) {

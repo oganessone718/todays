@@ -42,7 +42,7 @@ const DiaryTodayEdit = () => {
         ),
       });
     }
-  }, [isLoading]);
+  }, [today, tags, mentions]);
 
   const router = useRouter();
 
