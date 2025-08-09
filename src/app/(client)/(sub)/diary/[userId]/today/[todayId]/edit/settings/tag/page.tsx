@@ -15,14 +15,13 @@ const EditSettingsTag = () => {
   const router = useRouter();
   const params = useParams();
 
-  const [tagNames, setTagNames] = useState<Set<string>>(tmpToday.tags);
+  const [tagNames, setTagNames] = useState<string[]>(tmpToday.tags);
   const [tagName, setTagName] = useState("");
 
   const onEnterPress = () => {
     setTagNames((prev) => {
-      const newSet = new Set(prev);
-      newSet.add(tagName);
-      return newSet;
+      if (prev.includes(tagName)) return prev;
+      else return [...prev, tagName];
     });
     setTagName("");
   };
@@ -58,9 +57,7 @@ const EditSettingsTag = () => {
               text={tag}
               onDelete={() => {
                 setTagNames((prev) => {
-                  const newTags = new Set(prev);
-                  newTags.delete(tag);
-                  return newTags;
+                  return prev.filter((tagName) => tagName !== tag);
                 });
               }}
             />

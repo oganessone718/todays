@@ -29,8 +29,8 @@ export const useToday = (todayId?: string) => {
     };
   const [today, setToday] = useState<Today | null>(null);
   const [tags, setTags] = useState<Array<Tag> | null>(null);
-  const [mentions, setMentions] = useState<Array<User> | null>(null);
-  const [visiblePeople, setVisiblePeople] = useState<Array<User> | null>(null);
+  const [mentions, setMentions] = useState<Array<UserWithoutPassword> | null>(null);
+  const [visiblePeople, setVisiblePeople] = useState<Array<UserWithoutPassword> | null>(null);
   const [visibleGroups, setVisibleGroups] =
     useState<Array<FriendsGroup> | null>(null);
 

@@ -1,32 +1,14 @@
 import { TmpTodayValues } from "@/store/useTmpTodayStore";
-import {
-  Comment,
-  FriendsGroup,
-  Reaction,
-  Tag,
-  Today,
-  User,
-} from "@prisma/client";
-
-export interface tmpStructuredTodayValues {
-  title: string;
-  content: string;
-  date: string;
-  emojiUrl: string;
-  mentions: Array<string>;
-  tags: Array<string>;
-  visiblePeople: Array<string>;
-  visibleGroups: Array<string>;
-}
+import { Comment, FriendsGroup, Reaction, Tag, Today } from "@prisma/client";
 
 const createToday = async (userId: string, tmpTodayData: TmpTodayValues) => {
   try {
     const tmpStructuredTodayData = {
       ...tmpTodayData,
-      mentions: Array.from(tmpTodayData.mentions),
-      tags: Array.from(tmpTodayData.tags),
-      visiblePeople: Array.from(tmpTodayData.visiblePeople),
-      visibleGroups: Array.from(tmpTodayData.visibleGroups),
+      mentions: tmpTodayData.mentions,
+      tags: tmpTodayData.tags,
+      visiblePeople: tmpTodayData.visiblePeople,
+      visibleGroups: tmpTodayData.visibleGroups,
     };
 
     const todayRes = await fetch(`/api/today`, {
@@ -125,10 +107,10 @@ const updateToday = async ({
   try {
     const tmpStructuredTodayData = {
       ...tmpTodayData,
-      mentions: Array.from(tmpTodayData.mentions),
-      tags: Array.from(tmpTodayData.tags),
-      visiblePeople: Array.from(tmpTodayData.visiblePeople),
-      visibleGroups: Array.from(tmpTodayData.visibleGroups),
+      mentions: tmpTodayData.mentions,
+      tags: tmpTodayData.tags,
+      visiblePeople: tmpTodayData.visiblePeople,
+      visibleGroups: tmpTodayData.visibleGroups,
     };
 
     const todayRes = await fetch(`/api/today/${todayId}`, {
