@@ -14,8 +14,8 @@ interface UserContentProps {
     React.SetStateAction<FriendsGroup | null>
   >;
   friendsGroups: FriendsGroup[];
-  visiblePeople: Set<string>;
-  setVisiblePeople: React.Dispatch<React.SetStateAction<Set<string>>>;
+  visiblePeople: string[];
+  setVisiblePeople: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const total = "전체 친구";
@@ -37,10 +37,9 @@ const UserContent = ({
   useEffect(() => {
     setIsAllCheckedMap((prev) => ({
       ...prev,
-      [getCurrentGroupId()]: isSubset({
-        subSet: new Set(friends.map((friend) => friend.id)),
-        set: visiblePeople,
-      }),
+      [getCurrentGroupId()]: friends
+        .map((friend) => friend.id)
+        .every((friendId) => visiblePeople.includes(friendId)),
     }));
   }, [visiblePeople, friends]);
 
@@ -54,14 +53,12 @@ const UserContent = ({
   };
 
   const onUserSelect = (id: string) => {
-    setVisiblePeople((prev: Set<string>) => {
-      const newSet = new Set(prev);
-      if (prev.has(id)) {
-        newSet.delete(id);
+    setVisiblePeople((prev: string[]) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
       } else {
-        newSet.add(id);
+        return [...prev, id];
       }
-      return newSet;
     });
   };
 
@@ -74,12 +71,18 @@ const UserContent = ({
       [currentGroupId]: isCheckedNow,
     }));
 
-    setVisiblePeople((prev) => {
-      const newMentions = new Set(prev);
+    setVisiblePeople((prev: string[]) => {
+      let newMentions = [...prev];
       if (isCheckedNow) {
-        friends.forEach((friend) => newMentions.add(friend.id));
+        friends.forEach((friend) => {
+          if (!newMentions.includes(friend.id)) {
+            newMentions.push(friend.id);
+          }
+        });
       } else {
-        friends.forEach((friend) => newMentions.delete(friend.id));
+        newMentions = newMentions.filter(
+          (id) => !friends.some((friend) => friend.id === id)
+        );
       }
       return newMentions;
     });
@@ -117,7 +120,7 @@ const UserContent = ({
             <UserSelectRow
               key={friend.id}
               user={friend}
-              isSelected={visiblePeople.has(friend.id)}
+              isSelected={visiblePeople.includes(friend.id)}
               onSelect={onUserSelect}
             />
           );

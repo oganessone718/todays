@@ -6,13 +6,12 @@ import Setting from "./_atomic/Setting";
 const VisibilitySetting = ({ onClick }: { onClick: () => void }) => {
   const { tmpToday } = useTmpTodayStore();
 
+  // TODO: 비공개 추가하면 수정
   const visibilityDescription = () => {
     const visiblesLength =
-      tmpToday.visibleGroups.size + tmpToday.visiblePeople.size;
+      tmpToday.visibleGroups.length + tmpToday.visiblePeople.length;
     if (visiblesLength === 0) {
       return "전체 공개";
-    } else if (visiblesLength === 1) {
-      return "비공개";
     } else {
       return "일부 공개";
     }

@@ -11,7 +11,7 @@ const MentionSetting = ({ onClick }: { onClick: () => void }) => {
       icon="group"
       text="함께 한 사람을 멘션해보세요."
       description={
-        tmpToday.mentions.size > 0 ? `${tmpToday.mentions.size}명` : ""
+        tmpToday.mentions.length > 0 ? `${tmpToday.mentions.length}명` : ""
       }
       onClick={onClick}
     />

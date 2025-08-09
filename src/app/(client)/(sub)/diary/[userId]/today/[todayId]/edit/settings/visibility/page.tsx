@@ -21,10 +21,10 @@ const EditSettingsVisibility = () => {
   const params = useParams();
 
   const { setTmpToday, tmpToday } = useTmpTodayStore();
-  const [visibleGroups, setVisibleGroups] = useState<Set<string>>(
+  const [visibleGroups, setVisibleGroups] = useState<string[]>(
     tmpToday.visibleGroups
   );
-  const [visiblePeople, setVisiblePeople] = useState<Set<string>>(
+  const [visiblePeople, setVisiblePeople] = useState<string[]>(
     tmpToday.visiblePeople
   );
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -129,15 +129,15 @@ const EditSettingsVisibility = () => {
           }
           buttonText="완료"
           onClick={() => {
-            const visibleWithUser = new Set(visiblePeople);
-            if (user) visibleWithUser.add(user.id);
+            if (!user) return;
             setTmpToday({
-              visiblePeople: visibleWithUser,
+              visiblePeople: visiblePeople,
               visibleGroups: visibleGroups,
             });
             router.push(
               `/diary/${params.userId?.toString()}/today/${params.todayId?.toString()}/edit/settings`
-            );          }}
+            );
+          }}
         />
       </div>
     </div>

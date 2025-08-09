@@ -1,13 +1,11 @@
 import { prisma } from "@/lib/prisma";
-import { FriendsGroup, Tag, User } from "@prisma/client";
-import { tmpStructuredTodayValues } from "../client/today";
-
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 const createToday = async ({
   userId,
   tmpTodayData,
 }: {
   userId: string;
-  tmpTodayData: tmpStructuredTodayValues;
+  tmpTodayData: TmpTodayValues;
 }) => {
   try {
     const today = await prisma.today.create({
@@ -127,8 +125,6 @@ const deleteToday = async ({ id }: { id: string }) => {
   }
 };
 
-type PartialTodayData = Partial<tmpStructuredTodayValues>;
-
 const updateToday = async ({
   userId,
   todayId,
@@ -136,7 +132,7 @@ const updateToday = async ({
 }: {
   userId: string;
   todayId: string;
-  tmpTodayData: PartialTodayData;
+  tmpTodayData: Partial<TmpTodayValues>;
 }) => {
   try {
     const data: any = {};

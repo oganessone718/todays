@@ -1,5 +1,5 @@
-import { tmpStructuredTodayValues } from "@/lib/client/today";
 import { deleteToday, getToday, updateToday } from "@/lib/server/today";
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(_: Request, { params }: { params: { id: string } }) {
@@ -35,8 +35,7 @@ export async function PATCH(
     const {
       userId,
       tmpTodayData,
-    }: { userId: string; tmpTodayData: Partial<tmpStructuredTodayValues> } =
-      body;
+    }: { userId: string; tmpTodayData: Partial<TmpTodayValues> } = body;
 
     const updatedToday = await updateToday({ userId, todayId, tmpTodayData });
     return NextResponse.json(updatedToday, { status: 200 });

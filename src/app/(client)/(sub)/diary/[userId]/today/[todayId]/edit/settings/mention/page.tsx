@@ -12,7 +12,6 @@ import { useFriendsGroup } from "@/hooks/useFriendsGroup";
 import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
-import { isSubset } from "@/utils/set";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -25,7 +24,7 @@ const EditSettingsMention = () => {
   const params = useParams();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [mentions, setMentions] = useState<Set<string>>(tmpToday.mentions);
+  const [mentions, setMentions] = useState<string[]>(tmpToday.mentions);
   const [tmpSearchText, setTmpSearchText] = useState("");
   const [isAllCheckedMap, setIsAllCheckedMap] = useState<
     Record<string, boolean>
@@ -47,10 +46,9 @@ const EditSettingsMention = () => {
   useEffect(() => {
     setIsAllCheckedMap((prev) => ({
       ...prev,
-      [getCurrentGroupId()]: isSubset({
-        subSet: new Set(friends.map((friend) => friend.id)),
-        set: mentions,
-      }),
+      [getCurrentGroupId()]:friends
+        .map((friend) => friend.id)
+        .every((friendId) => mentions.includes(friendId)),
     }));
   }, [mentions, friends]);
 
@@ -69,14 +67,12 @@ const EditSettingsMention = () => {
   };
 
   const onUserSelect = (id: string) => {
-    setMentions((prev) => {
-      const newSet = new Set(prev);
-      if (prev.has(id)) {
-        newSet.delete(id);
+    setMentions((prev: string[]) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
       } else {
-        newSet.add(id);
+        return [...prev, id];
       }
-      return newSet;
     });
   };
 
@@ -89,12 +85,18 @@ const EditSettingsMention = () => {
       [currentGroupId]: isCheckedNow,
     }));
 
-    setMentions((prev) => {
-      const newMentions = new Set(prev);
+    setMentions((prev: string[]) => {
+      let newMentions = [...prev];
       if (isCheckedNow) {
-        friends.forEach((friend) => newMentions.add(friend.id));
+        friends.forEach((friend) => {
+          if (!newMentions.includes(friend.id)) {
+            newMentions.push(friend.id);
+          }
+        });
       } else {
-        friends.forEach((friend) => newMentions.delete(friend.id));
+        newMentions = newMentions.filter(
+          (id) => !friends.some((friend) => friend.id === id)
+        );
       }
       return newMentions;
     });
@@ -176,7 +178,7 @@ const EditSettingsMention = () => {
               <UserSelectRow
                 key={friend.id}
                 user={friend}
-                isSelected={mentions.has(friend.id)}
+                isSelected={mentions.includes(friend.id)}
                 onSelect={onUserSelect}
               />
             );

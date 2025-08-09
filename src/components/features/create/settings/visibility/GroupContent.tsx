@@ -4,8 +4,8 @@ import FriendsGroupSelectRow from "@/components/common/friendsGroup/FriendsGroup
 import { FriendsGroup } from "@prisma/client";
 
 interface GroupContent {
-  visibleGroups: Set<string>;
-  setVisibleGroups: React.Dispatch<React.SetStateAction<Set<string>>>;
+  visibleGroups: string[];
+  setVisibleGroups: React.Dispatch<React.SetStateAction<string[]>>;
   friendsGroups: FriendsGroup[];
 }
 
@@ -15,14 +15,12 @@ const GroupContent = ({
   friendsGroups,
 }: GroupContent) => {
   const onGroupSelect = (id: string) => {
-    setVisibleGroups((prev) => {
-      const newSet = new Set(prev);
-      if (prev.has(id)) {
-        newSet.delete(id);
+    setVisibleGroups((prev: string[]) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
       } else {
-        newSet.add(id);
+        return [...prev, id];
       }
-      return newSet;
     });
   };
 
@@ -33,7 +31,7 @@ const GroupContent = ({
           <FriendsGroupSelectRow
             key={friendsGroup.id}
             friendsGroup={friendsGroup}
-            isSelected={visibleGroups.has(friendsGroup.id)}
+            isSelected={visibleGroups.includes(friendsGroup.id)}
             onSelect={onGroupSelect}
           />
         ))}

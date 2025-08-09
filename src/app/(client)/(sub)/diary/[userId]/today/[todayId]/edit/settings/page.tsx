@@ -20,6 +20,7 @@ const EditSettings = () => {
 
   const onSubmit = async () => {
     if (!user) return;
+    if (!params.todayId?.toString()) return;
     const updatedToday = await updateToday({
       userId: user.id,
       todayId: params.todayId?.toString() ?? "",

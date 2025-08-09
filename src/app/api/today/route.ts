@@ -1,5 +1,5 @@
-import { tmpStructuredTodayValues } from "@/lib/client/today";
 import { createToday } from "@/lib/server/today";
+import { TmpTodayValues } from "@/store/useTmpTodayStore";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   const {
     userId,
     tmpTodayData,
-  }: { userId: string; tmpTodayData: tmpStructuredTodayValues } = body;
+  }: { userId: string; tmpTodayData: TmpTodayValues } = body;
 
   if (
     !tmpTodayData.title ||
