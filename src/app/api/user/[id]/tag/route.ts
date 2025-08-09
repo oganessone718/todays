@@ -31,7 +31,7 @@ export async function POST(
   const tagNames: string[] = body.tagNames;
 
   try {
-    const createdTagsData = createTagsByNames(id, tagNames);
+    const createdTagsData = await createTagsByNames(id, tagNames);
     return NextResponse.json(createdTagsData, { status: 200 });
   } catch (error) {
     console.error("Error in POST /api/user/[id]/tag: ", error);
