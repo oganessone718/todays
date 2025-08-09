@@ -4,6 +4,8 @@ import ContentSection from "@/components/features/diary/ContentSection";
 import { useToday } from "@/hooks/useToday";
 import { useUser } from "@/hooks/useUser";
 import { loginId } from "@/mock/mockData";
+import useTmpTodayStore from "@/store/useTmpTodayStore";
+import { formatMonthDateForCreate } from "@/utils/date";
 import { useRouter } from "next/navigation";
 import { overlay } from "overlay-kit";
 import TagsSection from "./TagsSection";
@@ -11,7 +13,16 @@ import TitleSection from "./TitleSection";
 
 const TodayDetail = ({ todayId }: { todayId: string }) => {
   const { user } = useUser(loginId);
-  const { today, tags, mentions, deleteTodayByTodayId } = useToday(todayId);
+  const {
+    today,
+    tags,
+    mentions,
+    visiblePeople,
+    visibleGroups,
+    deleteTodayByTodayId,
+  } = useToday(todayId);
+
+  const { setTmpToday } = useTmpTodayStore();
 
   const router = useRouter();
 
@@ -39,6 +50,29 @@ const TodayDetail = ({ todayId }: { todayId: string }) => {
                   </div>
                   <div
                     onClick={() => {
+                      setTmpToday({
+                        title: today.title,
+                        emojiUrl: today.emojiUrl,
+                        content: today.content,
+                        date: formatMonthDateForCreate(today.date),
+                        mentions: mentions?.map((mention) => mention.id) ?? [],
+                        tags: tags?.map((tag) => tag.name) ?? [],
+                        visiblePeople:
+                          visiblePeople
+                            ?.map((visiblePerson) => visiblePerson.id)
+                            .filter(
+                              (visiblePerson) => visiblePerson !== user.id
+                            ) ?? [],
+                        visibleGroups:
+                          visibleGroups?.map(
+                            (visibleGroup) => visibleGroup.id
+                          ) ?? [],
+                      });
+                      console.log(
+                        visiblePeople?.map(
+                          (visiblePerson) => visiblePerson.id
+                        ) ?? []
+                      );
                       router.push(`/diary/${user.id}/today/${today.id}/edit`);
                       close();
                     }}
