@@ -1,11 +1,8 @@
 import { prisma } from "@/lib/prisma";
+import { UserWithoutPassword } from "@/types/users";
 import { User } from "@prisma/client";
 
-const getFriendsByUserId = async ({
-  userId,
-}: {
-  userId: string;
-}) => {
+const getFriendsByUserId = async ({ userId }: { userId: string }) => {
   try {
     const friendshipData = await prisma.friendship.findMany({
       where: {
@@ -17,10 +14,15 @@ const getFriendsByUserId = async ({
       },
     });
 
-    const friendsData: User[] = friendshipData
-      .map((fd) => (fd.user1.id === userId ? fd.user2 : fd.user1))
+    const friendsData: User[] = friendshipData.map((fd) =>
+      fd.user1.id === userId ? fd.user2 : fd.user1
+    );
 
-    return friendsData;
+    const safeFrindsData: UserWithoutPassword[] = friendsData.map(
+      ({ password, ...safeFriend }) => safeFriend
+    );
+
+    return safeFrindsData;
   } catch (error) {
     console.error(
       "Error in getFriendsByUserId /lib/api/server/friendship.ts: ",

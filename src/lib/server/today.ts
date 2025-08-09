@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { TmpTodayValues } from "@/store/useTmpTodayStore";
+import { UserWithoutPassword } from "@/types/users";
 const createToday = async ({
   userId,
   tmpTodayData,
@@ -102,9 +103,11 @@ const getMentionsByTodayId = async ({ todayId }: { todayId: string }) => {
         mentionedUser: true,
       },
     });
-    const mentionsData: User[] = todayMentionData.map((todayMentionDatum) => {
+    const mentionsData: UserWithoutPassword[] = todayMentionData.map(
+      (todayMentionDatum) => {
       return todayMentionDatum.mentionedUser;
-    });
+      }
+    );
 
     return mentionsData;
   } catch (error) {
@@ -216,7 +219,7 @@ const getVisiblePeopleByTodayId = async ({ todayId }: { todayId: string }) => {
       },
     });
 
-    const visiblePeople: User[] = todayVisiblePeopleData.map(
+    const visiblePeople: UserWithoutPassword[] = todayVisiblePeopleData.map(
       (datum) => datum.visibleUser
     );
 

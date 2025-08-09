@@ -1,12 +1,13 @@
 import MentionTag from "@/components/common/tag/MentionTag";
 import Tag from "@/components/common/tag/Tag";
+import { UserWithoutPassword } from "@/types/users";
 import { Tag as TagType, User } from "@prisma/client";
 
 const TagsSection = ({
   mentions,
   tags,
 }: {
-  mentions: User[] | null;
+  mentions: UserWithoutPassword[] | null;
   tags: TagType[] | null;
 }) => {
   return (

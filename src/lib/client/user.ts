@@ -11,7 +11,8 @@ const getUserWithLoginId = async (loginId: string) => {
       throw new Error("Failed to fetch user");
     }
 
-    const userData: User = await userRes.json();
+    const userData: UserWithoutPassword = await userRes.json();
+
     return userData;
   } catch (error) {
     console.error(

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { UserWithoutPassword } from "@/types/users";
 import { User } from "@prisma/client";
 
 const getFriendsByGroupId = async ({
@@ -16,12 +17,17 @@ const getFriendsByGroupId = async ({
       },
     });
 
-    const groupFriendsData: User[] = friendsGroupData
-      .map((friendsGroupDatum) => {
+    const groupFriendsData: User[] = friendsGroupData.map(
+      (friendsGroupDatum) => {
         return friendsGroupDatum.friend;
-      })
+      }
+    );
 
-    return groupFriendsData;
+    const safeGroupFriendsData: UserWithoutPassword[] = groupFriendsData.map(
+      ({ password, ...safeGroupFriend }) => safeGroupFriend
+    );
+
+    return safeGroupFriendsData;
   } catch (error) {
     console.error(
       "Error in getFriendsByGroupId /lib/api/server/groupFriend.ts: ",

@@ -1,8 +1,8 @@
-import type { User } from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
 import UserRow from "./_atomic/UserRow";
 
 interface UserSelectRowProps {
-  user: User;
+  user: UserWithoutPassword;
   isSelected: boolean;
   onSelect: (id: string) => void;
 }

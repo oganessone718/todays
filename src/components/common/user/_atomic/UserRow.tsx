@@ -1,8 +1,8 @@
-import type { User } from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
 import React from "react";
 
 interface UserRowProps {
-  user: User;
+  user: UserWithoutPassword;
   bgColor?: "white" | "secondary";
   right?: React.ReactNode;
 }

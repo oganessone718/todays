@@ -1,10 +1,6 @@
-import { User } from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
 
-const getFriendsByUserId = async ({
-  userId,
-}: {
-  userId: string;
-}) => {
+const getFriendsByUserId = async ({ userId }: { userId: string }) => {
   try {
     const url = new URL(`/api/user/${userId}/friends`, window.location.origin);
 
@@ -17,7 +13,7 @@ const getFriendsByUserId = async ({
       throw new Error("Failed to fetch friends");
     }
 
-    const friendsData: User[] = await friendsRes.json();
+    const friendsData: UserWithoutPassword[] = await friendsRes.json();
     return friendsData;
   } catch (error) {
     console.error(

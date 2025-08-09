@@ -10,14 +10,8 @@ import {
   updateToday,
 } from "@/lib/client/today";
 import { TmpTodayValues } from "@/store/useTmpTodayStore";
-import {
-  Comment,
-  FriendsGroup,
-  Reaction,
-  Tag,
-  Today,
-  User,
-} from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
+import { Comment, FriendsGroup, Reaction, Tag, Today } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 export const useToday = (todayId?: string) => {
@@ -29,8 +23,11 @@ export const useToday = (todayId?: string) => {
     };
   const [today, setToday] = useState<Today | null>(null);
   const [tags, setTags] = useState<Array<Tag> | null>(null);
-  const [mentions, setMentions] = useState<Array<UserWithoutPassword> | null>(null);
-  const [visiblePeople, setVisiblePeople] = useState<Array<UserWithoutPassword> | null>(null);
+  const [mentions, setMentions] = useState<Array<UserWithoutPassword> | null>(
+    null
+  );
+  const [visiblePeople, setVisiblePeople] =
+    useState<Array<UserWithoutPassword> | null>(null);
   const [visibleGroups, setVisibleGroups] =
     useState<Array<FriendsGroup> | null>(null);
 

@@ -1,9 +1,9 @@
 import { getUserWithLoginId } from "@/lib/client/user";
-import { User } from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
 import { useEffect, useState } from "react";
 
 export const useUser = (loginId: string) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserWithoutPassword | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);

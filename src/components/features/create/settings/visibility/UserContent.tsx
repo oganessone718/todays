@@ -3,12 +3,12 @@
 import Dropdown from "@/components/common/Dropdown";
 import IconButton from "@/components/common/button/IconButton";
 import UserSelectRow from "@/components/common/user/UserSelectRow";
-import { isSubset } from "@/utils/set";
-import { FriendsGroup, User } from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
+import { FriendsGroup } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 interface UserContentProps {
-  friends: User[];
+  friends: UserWithoutPassword[];
   selectedFriendsGroup: FriendsGroup | null;
   setSelectedFriendsGroup: React.Dispatch<
     React.SetStateAction<FriendsGroup | null>
