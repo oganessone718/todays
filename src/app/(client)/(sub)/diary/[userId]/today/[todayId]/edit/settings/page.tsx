@@ -8,13 +8,15 @@ import TagSetting from "@/components/features/create/settings/TagSetting";
 import VisibilitySetting from "@/components/features/create/settings/VisibilitySetting";
 import { useUser } from "@/hooks/useUser";
 import { updateToday } from "@/lib/client/today";
-import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useParams, useRouter } from "next/navigation";
 
 const EditSettings = () => {
   const { tmpToday, resetTmpToday } = useTmpTodayStore();
-  const { user } = useUser(loginId);
+
+  const user = useUser();
+  if (!user) return <p>Loading...</p>;
+
   const params = useParams();
   const router = useRouter();
 

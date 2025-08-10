@@ -11,7 +11,6 @@ import UserContent from "@/components/features/create/settings/visibility/UserCo
 import { useFriend } from "@/hooks/useFriend";
 import { useFriendsGroup } from "@/hooks/useFriendsGroup";
 import { useUser } from "@/hooks/useUser";
-import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,7 +30,9 @@ const EditSettingsVisibility = () => {
   const [tmpSearchText, setTmpSearchText] = useState("");
   const [viewMode, setViewMode] = useState("group");
 
-  const { user } = useUser(loginId);
+  const user = useUser();
+  if (!user) return <p>Loading...</p>;
+
   const { friendsGroups, setSearchText: setFriendsGroupSearchText } =
     useFriendsGroup(user?.id ?? null);
   const {

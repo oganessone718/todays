@@ -17,7 +17,7 @@ datasource db {
 model User {
   id                  String               @id @default(cuid()) 
   loginId             String               @unique @db.VarChar(20)
-  password            String?              
+  password            String              
   nickname            String               @db.VarChar(12)
   introduction        String?              @db.VarChar(200)
   diaryName           String               @db.VarChar(20)

@@ -2,6 +2,7 @@ import React, { ChangeEvent, KeyboardEvent } from "react";
 
 export interface InputBarProps {
   inputText: string;
+  type?: "text" | "password";
   onChange: (value: string) => void;
   leftIcon?: React.ReactNode;
   placeholder?: string;
@@ -11,6 +12,7 @@ export interface InputBarProps {
 
 const InputBar = ({
   inputText,
+  type = "text",
   onChange,
   leftIcon = null,
   placeholder = "입력해주세요.",
@@ -32,7 +34,7 @@ const InputBar = ({
     <div className="select-none min-w-0 flex-1 flex flex-row items-center px-[16px] py-[8px] gap-[8px] bg-gray-100 rounded-[15px]">
       {leftIcon}
       <input
-        type="text"
+        type={type}
         value={inputText}
         placeholder={placeholder}
         onChange={handleValueChange}

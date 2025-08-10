@@ -6,15 +6,15 @@ import CommentReactionBar from "@/components/common/today/CommentReaction";
 import TodayDetail from "@/components/common/today/TodayDetail";
 import { useToday } from "@/hooks/useToday";
 import { useUser } from "@/hooks/useUser";
-import { loginId } from "@/mock/mockData";
 import { formatMonthDate } from "@/utils/date";
 import { useParams, useRouter } from "next/navigation";
 
 const DiaryToday = () => {
   const router = useRouter();
-
   const params = useParams();
-  const { user } = useUser(loginId);
+
+  const user = useUser();
+  if (!user) return <p>Loading...</p>;
 
   const { today, reactions, comments } = useToday(params.todayId?.toString());
 

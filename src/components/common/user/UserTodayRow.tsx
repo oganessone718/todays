@@ -1,10 +1,10 @@
 import IconButton from "@/components/common/button/IconButton";
 import VisibilityTag from "@/components/common/tag/VisibilityTag";
-import { User } from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
 import UserRow from "./_atomic/UserRow";
 
 interface UserTodayRowProps {
-  user: User;
+  user: UserWithoutPassword;
   visibility: "all" | "some" | "none";
   isMine: boolean;
   onClick: () => void;

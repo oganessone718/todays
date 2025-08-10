@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { UserWithoutPassword } from "@/types/users";
 
 const getFriendsByGroupId = async ({
   friendsGroupId,
@@ -20,7 +20,7 @@ const getFriendsByGroupId = async ({
       throw new Error("Failed to fetch friends");
     }
 
-    const friendsData: User[] = await friendsRes.json();
+    const friendsData: UserWithoutPassword[] = await friendsRes.json();
     return friendsData;
   } catch (error) {
     console.error(

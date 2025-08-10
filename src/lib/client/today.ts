@@ -1,4 +1,5 @@
 import { TmpTodayValues } from "@/store/useTmpTodayStore";
+import { UserWithoutPassword } from "@/types/users";
 import { Comment, FriendsGroup, Reaction, Tag, Today } from "@prisma/client";
 
 const createToday = async (userId: string, tmpTodayData: TmpTodayValues) => {
@@ -53,7 +54,7 @@ const getMentionsByTodayId = async ({ todayId }: { todayId: string }) => {
   try {
     const mentionRes = await fetch(`/api/today/${todayId}/mentions`);
 
-    const mentionData: User[] = await mentionRes.json();
+    const mentionData: UserWithoutPassword[] = await mentionRes.json();
     return mentionData;
   } catch (error) {
     console.error("Error in getToday /lib/api/client/today.ts: ", error);
@@ -136,7 +137,8 @@ const getVisiblePeopleByTodayId = async ({ todayId }: { todayId: string }) => {
   try {
     const visiblePeopleRes = await fetch(`/api/today/${todayId}/mentions`);
 
-    const visiblePeopleData: User[] = await visiblePeopleRes.json();
+    const visiblePeopleData: UserWithoutPassword[] =
+      await visiblePeopleRes.json();
     return visiblePeopleData;
   } catch (error) {
     console.error("Error in getToday /lib/api/client/today.ts: ", error);
@@ -146,7 +148,9 @@ const getVisiblePeopleByTodayId = async ({ todayId }: { todayId: string }) => {
 
 const getVisibleGroupsByTodayId = async ({ todayId }: { todayId: string }) => {
   try {
-    const visibleGroupsRes = await fetch(`/api/today/${todayId}/mentions`);
+    const visibleGroupsRes = await fetch(
+      `/api/today/${todayId}/visible-groups`
+    );
 
     const visibleGroupsData: FriendsGroup[] = await visibleGroupsRes.json();
     return visibleGroupsData;
