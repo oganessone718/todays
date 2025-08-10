@@ -10,7 +10,6 @@ import CreateSettingsBottomBar from "@/components/features/create/CreateSettingB
 import { useFriend } from "@/hooks/useFriend";
 import { useFriendsGroup } from "@/hooks/useFriendsGroup";
 import { useUser } from "@/hooks/useUser";
-import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,8 +28,9 @@ const CreateSettingsMention = () => {
     Record<string, boolean>
   >({});
 
-  const { user } = useUser(loginId);
-
+  const user = useUser();
+  if (!user) return <p>Loading...</p>;
+  
   const { friendsGroups } = useFriendsGroup(user?.id ?? null);
 
   const {

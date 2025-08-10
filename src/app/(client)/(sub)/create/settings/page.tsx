@@ -8,17 +8,18 @@ import TagSetting from "@/components/features/create/settings/TagSetting";
 import VisibilitySetting from "@/components/features/create/settings/VisibilitySetting";
 import { useUser } from "@/hooks/useUser";
 import { createToday } from "@/lib/client/today";
-import { loginId } from "@/mock/mockData";
 import useTmpTodayStore from "@/store/useTmpTodayStore";
 import { useRouter } from "next/navigation";
 
 const CreateSettings = () => {
   const { tmpToday, resetTmpToday } = useTmpTodayStore();
-  const { user } = useUser(loginId);
+
+  const user = useUser();
+  if (!user) return <p>Loading...</p>;
+
   const router = useRouter();
 
   const onSubmit = async () => {
-    if (!user) return;
     const newToday = await createToday(user.id, tmpToday);
     router.push(`/diary/${user.id}/today/${newToday.id}`);
     resetTmpToday();
