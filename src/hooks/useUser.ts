@@ -1,34 +1,18 @@
-import { getUserWithLoginId } from "@/lib/client/user";
-import { UserWithoutPassword } from "@/types/users";
-import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
-export const useUser = (loginId: string) => {
-  const [user, setUser] = useState<UserWithoutPassword | null>(null);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<unknown>(null);
+export function useUser() {
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    const fetchUser = async (loginId: string) => {
-      try {
-        setIsLoading(true);
-        const userData = await getUserWithLoginId(loginId);
-        setUser(userData);
-      } catch (error) {
-        console.error("Failed to fetch user in mention setting page:", error);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (loginId) {
-      fetchUser(loginId);
+    if (status === "unauthenticated") {
+      window.location.href = "/sign-in";
     }
-  }, [loginId]);
+  }, [status]);
 
-  return {
-    user,
-    isLoading,
-    error,
-  };
-};
+  if (status === "loading") {
+    return null;
+  }
+
+  return session!.user;
+}
