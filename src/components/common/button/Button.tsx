@@ -21,7 +21,8 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      className={`px-[12px] py-[8px] flex items-center justify-center gap-[2px] font-semibold text-[16px]
+      disabled={!activated}
+      className={`select-none px-[12px] py-[8px] flex items-center justify-center gap-[2px] font-semibold text-[16px]
         ${
           filled
             ? activated

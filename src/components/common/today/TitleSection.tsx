@@ -4,11 +4,11 @@ import Image from "next/image";
 const TitleSection = ({
   title,
   emojiUrl,
-  createdAt,
+  updatedAt,
 }: {
   title: string;
   emojiUrl: string;
-  createdAt: Date;
+  updatedAt: Date;
 }) => {
   return (
     <div className="flex flex-col gap-[4px] border-b-[1px] border-gray-100 p-[16px]">
@@ -16,7 +16,7 @@ const TitleSection = ({
         <p className="text-[18px] font-medium">{title}</p>
         <Image src={emojiUrl} alt={emojiUrl} width={24} height={24} />
       </div>
-      <p className="text-[12px] text-gray-700">{formatDate(createdAt)}</p>
+      <p className="text-[12px] text-gray-700">{formatDate(updatedAt)}</p>
     </div>
   );
 };
