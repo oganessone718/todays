@@ -3,6 +3,27 @@ import { UserWithoutPassword } from "@/types/users";
 import { User } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 
+const isLoginIdDuplicate = async ({ loginId }: { loginId: string }) => {
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        loginId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return existingUser !== null;
+  } catch (error) {
+    console.error(
+      "Error in isLoginIdDuplicate /lib/api/server/user.ts: ",
+      error
+    );
+    throw new Error("Failed to check loginId duplication in the database.");
+  }
+};
+
 const createUser = async ({
   loginId,
   inputPassword,
@@ -85,4 +106,4 @@ const getUserByLoginId = async (loginId: string) => {
   }
 };
 
-export { createUser, getUserByLoginId, signInUser };
+export { createUser, getUserByLoginId, isLoginIdDuplicate, signInUser };

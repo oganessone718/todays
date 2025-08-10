@@ -1,5 +1,24 @@
 import { UserWithoutPassword } from "@/types/users";
 
+const isLoginIdDuplicate = async ({ loginId }: { loginId: string }) => {
+  try {
+    const userRes = await fetch(`/api/user/${loginId}/duplicate-check`);
+
+    if (!userRes.ok) {
+      throw new Error("Failed to fetch user");
+    }
+    const userData: boolean = await userRes.json();
+    return userData;
+  } catch (error) {
+    console.error(
+      "Error in getUserWithLoginId /lib/api/client/user.ts: ",
+      error
+    );
+
+    throw error;
+  }
+};
+
 const createUser = async ({
   loginId,
   inputPassword,
@@ -103,4 +122,4 @@ const getUserWithLoginId = async (loginId: string) => {
   }
 };
 
-export { createUser, getUserWithLoginId, signInUser };
+export { createUser, getUserWithLoginId, isLoginIdDuplicate, signInUser };

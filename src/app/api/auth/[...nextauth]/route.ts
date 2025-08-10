@@ -37,7 +37,6 @@ const authOptions : AuthOptions = {
       if (user) {
         token.user = user as UserWithoutPassword;
       }
-      console.log(token, user);
       return token;
     },
 
